@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import "./Login.css";
+import "./Signup.css";
 
 const Signup = () => {
 
@@ -11,12 +11,12 @@ const Signup = () => {
     }
     
     return (
-        <div className="login">
+        <div className="signup">
             <Link to="/">
-                <img className="login__logo" src="" alt="logo"/>
+                <img className="signup__logo" src="" alt="logo"/>
             </Link>
 
-            <div className="login__container">
+            <div className="signup__container">
                 <h1>Sign up</h1>
                 <form>
                     <input placeholder="Email" type="text"></input>
@@ -27,7 +27,7 @@ const Signup = () => {
 
                 </form>
 
-                <button className="login__registerButton" onClick={registerClick}>Sign up</button>
+                <button className="signup__registerButton" onClick={registerClick}>Sign up</button>
             </div>
         </div>
     );

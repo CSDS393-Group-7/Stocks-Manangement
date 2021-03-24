@@ -5,6 +5,7 @@ import "./Login.css";
 const Login = () => {
 
     const history = useHistory();
+    
     const registerClick = () => {
         history.push("/signup");
     }
