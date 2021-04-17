@@ -12,9 +12,9 @@ const Header = () => {
 
     return (
         <div className="header">
-            <Link>
+            <Link to="/">
                 <img className="header__logo" 
-                    src="https://ultimateinvesting.sg/wp-content/uploads/2019/06/kissclipart-share-market-logo-clipart-stock-market-investment-0f68221e22f5b45c-1-300x173.png" alt="icon"></img>
+                    src="https://thumbs.dreamstime.com/b/growth-chart-infographic-chart-icon-white-icon-dark-background-growth-chart-infographic-chart-icon-white-icon-dark-156695206.jpg" alt="icon"></img>
             </Link>
 
             <div className="header__nav">

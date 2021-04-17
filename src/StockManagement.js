@@ -28,7 +28,7 @@ const StockManagement = () => {
     
     const handleAdd = e => {
         e.preventDefault();
-        setRows([...rows, createData(rows.length + 1, input, "Code", 0, 0)]);
+        setRows([...rows, createData(rows.length + 1, input, "Code", "Price", "Change")]);
         setInput('');
     }
      
@@ -39,8 +39,10 @@ const StockManagement = () => {
             if (data !== undefined) {
                 setRows(rows => {
                     for(let i = 0; i < rows.length; i++) {
-                        if(rows[i].name == data["stock"]) {
-                            rows[i].price = data["price"]
+                        if(rows[i].name === data["stock"]) {
+                            let oldPrice = rows[i].price;
+                            rows[i].price = data["price"];
+                            rows[i].change = rows[i].price - oldPrice;
                             return [...rows]
                         }
                     }
