@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./StockManagement.css";
 import { Table } from '@material-ui/core';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,7 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
+import { io } from "socket.io-client"
 
 const StockManagement = () => {
     const [input, setInput] = useState([]);
@@ -15,7 +15,6 @@ const StockManagement = () => {
     const createData = (id, name, code, price, change) => {
         return { id, name, code, price, change};
     };
-      
     const [rows, setRows] = useState([
         createData(1, "Apple", "AAPL", 24, 4.0),
         createData(2, "Tesla", "TSL", 37, 4.3),
@@ -24,12 +23,33 @@ const StockManagement = () => {
         createData(5, "Vietnam Airlines", "VNA", 49, 3.9),
     ]);
 
+    
+    
+    
     const handleAdd = e => {
         e.preventDefault();
         setRows([...rows, createData(rows.length + 1, input, "Code", 0, 0)]);
         setInput('');
     }
-      
+     
+    useEffect(() => {
+        const socket = io('localhost:8080');
+        socket.on("change-type", (event) => {
+            const data = event
+            if (data !== undefined) {
+                setRows(rows => {
+                    for(let i = 0; i < rows.length; i++) {
+                        if(rows[i].name == data["stock"]) {
+                            rows[i].price = data["price"]
+                            return [...rows]
+                        }
+                    }
+                    return [...rows]
+                })
+            }
+        })
+        
+    }, [])
     
 
     return (
