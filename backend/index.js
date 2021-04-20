@@ -2,6 +2,7 @@
 
 const express = require('express');
 const db = require('./database');
+const auth = require('./middleware/auth');
 
 const user = require('./routes/user.route');
 
@@ -14,6 +15,7 @@ db.connect('mongodb://localhost:27017/stock-management', (err) => {
 
     console.log('Successfully connected to MongoDB');
     app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
 
     app.use('/api/user', user);
 

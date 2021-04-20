@@ -13,18 +13,22 @@ router.post('/create', async (req, res) => {
     const username = req.body.username;
     const rawPwd = req.body.password;
 
-    if (User.ifExists(username)) 
-        res.sendStatus(409);
+    const user = new User(username);
+
+    if ((await user.ifExists())) {
+        res.status(409).json(`${username} exists in database`);
+        return;
+    }
 
     const salt = bcrypt.genSaltSync(10);
+    console.log(salt, rawPwd);
     const hashedPwd = bcrypt.hashSync(rawPwd, salt);
     
     User.createNewUser(req.body.username, hashedPwd, req.body.fullName, req.body.email);
 
-    res.send(jwt.sign(
+    res.json(jwt.sign(
         username, 
-        process.env.TOKEN_SECRET, 
-        { expiresIn: '1000m' }
+        process.env.TOKEN_SECRET,
     ));
 });
 
@@ -34,19 +38,21 @@ router.post('/login', async (req, res) => {
 
     const user = new User(username);
 
-    if (!(await user.ifExists())) 
-        res.sendStatus(404);
+    if (!(await user.ifExists())) {
+        res.status(404).json(`${username} is not found`);
+        return;
+    }
     
     const storedPwd = await user.getPwdFromDb();
+    console.log(storedPwd);
     const matched = bcrypt.compareSync(rawPwd, storedPwd);
     if (matched)
-        res.send(jwt.sign(
+        res.json(jwt.sign(
             username,
             process.env.TOKEN_SECRET,
-            { expiresIn: '1000m' }
         ));
     else
-        res.sendStatus(403);
+        res.status(403).json('Password mismatched');
 });
 
 module.exports = router;

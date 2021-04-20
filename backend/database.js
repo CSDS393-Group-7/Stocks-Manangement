@@ -8,7 +8,7 @@ exports.connect = (url, doneCallback) => {
     if (state.db) 
         return doneCallback();
     
-    MongoClient.connect(url, (err, db) => {
+    MongoClient.connect(url, { useUnifiedTopology: true }, (err, db) => {
         if (err)
             return doneCallback(err);
         state.db = db.db('stock-management');

@@ -22,7 +22,7 @@ class User {
     }
 
     async getPwdFromDb() {
-        return await db.collection(process.env.USER_COLLECTION).find({ username: this.username }).password;
+        return (await db.collection(process.env.USER_COLLECTION).findOne({ username: this.username })).password;
     }
 };
 

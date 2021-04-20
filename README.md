@@ -6,7 +6,6 @@ This is an app to manage stocks and display trending related topics
 - ```frontend```: Client-side React application
 - ```backend```: Server-side Node.js application
 
-## Members
+## Wiki
 
-- Frontend: Vivian Luu, Kris Tran, Trung Nguyen
-- Backend: Hieu Nguyen, Loc Nguyen, Hoang Do, Trung Nguyen
+- Backend APIs: [`README.md`](https://github.com/CSDS393-Group-7/Stocks-Manangement/blob/main/backend/README.md)
