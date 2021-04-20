@@ -1,2 +1,10 @@
 # Backend
 
+**Technologies**: Express, Node.js
+
+## APIs
+### User (/api/user)
+| URL  | Description | Request | Respond |
+| ------------- | ------------- | ------------- | ------------- |
+| ```/api/user/create```  | Create a new user  | <pre>{ <br>   username: text,<br>   password: text,<br>   fullName: text,<br>   email: text,<br>}</pre>  | Either one of the following JSON: <br><ul><li>```token``` (status 200): successfully registered. ```token``` is used for authorization</li><li>```{username} exists in database``` (status 409)</li></ul>  |
+| ```/api/user/login```  | Login to server  | <pre>{ <br>   username: text,<br>   password: text,<br>}</pre>  | Either one of the following JSON: <br><ul><li>```token``` (status 200): successfully login. ```token``` is used for authorization</li><li>```{username} is not found``` (status 404)</li><li>```Password mismatched``` (status 403)</li></ul>  |
