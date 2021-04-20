@@ -1,4 +1,8 @@
 # Folders
 node_modules/
+.vscode/
+.idea/
+*/.idea/
+*/.vscode/
 
 # Files
