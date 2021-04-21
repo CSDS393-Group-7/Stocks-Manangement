@@ -7,7 +7,7 @@ const auth = require('./middleware/auth');
 const user = require('./routes/user.route');
 
 const app = express();
-const port = 3000;
+const port = 8000;
 
 db.connect('mongodb://localhost:27017/stock-management', (err) => {
     if (err)
