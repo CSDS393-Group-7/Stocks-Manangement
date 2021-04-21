@@ -14,14 +14,16 @@ const Signup = () => {
         if (password != retype) {
             alert("The two passwords do not match");
         }
-        let item = {username, password};
         let result = await fetch(("http://localhost:8000/api/user/create"), {
             headers: {
                 "Content-Type": "application/json"
             },
             method: "POST",
-            body: JSON.stringify(item)
-        })
+            body: JSON.stringify({
+                username: username,
+                password: password,
+            })
+        });
 
         result = await result.json();
         console.log(result);

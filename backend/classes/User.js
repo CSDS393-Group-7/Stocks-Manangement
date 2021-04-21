@@ -4,12 +4,10 @@ require('dotenv').config();
 const db = require('../database');
 
 class User {   
-    static createNewUser(username, hashPwd, fullName, email) {
+    static createNewUser(username, hashPwd) {
         db.collection(process.env.USER_COLLECTION).insertOne({
             username: username,
-            fullName: fullName,
             password: hashPwd,
-            email: email,
         });
     };
 

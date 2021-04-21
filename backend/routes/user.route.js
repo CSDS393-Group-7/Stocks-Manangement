@@ -24,7 +24,7 @@ router.post('/create', async (req, res) => {
     console.log(salt, rawPwd);
     const hashedPwd = bcrypt.hashSync(rawPwd, salt);
     
-    User.createNewUser(req.body.username, hashedPwd, req.body.fullName, req.body.email);
+    User.createNewUser(req.body.username, hashedPwd);
 
     res.json(jwt.sign(
         username, 
