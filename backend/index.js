@@ -1,6 +1,7 @@
 'use strict'
 
 const express = require('express');
+const cors = require('cors');
 const db = require('./database');
 const auth = require('./middleware/auth');
 
@@ -15,6 +16,7 @@ db.connect('mongodb://localhost:27017/stock-management', (err) => {
 
     console.log('Successfully connected to MongoDB');
     app.use(express.json());
+    app.use(cors());
     app.use(express.urlencoded({ extended: true }));
 
     app.use('/api/user', user);
