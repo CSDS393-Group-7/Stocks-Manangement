@@ -1,9 +1,10 @@
 import React from 'react';
 import "./Header.css";
 import { Link } from 'react-router-dom';
+import { useStateValue } from './StateProvider';
 
 const Header = () => {
-    const user = null;
+    const user = useStateValue();
 
     const handleAuthentication = () => {
         if (user) {
@@ -30,7 +31,7 @@ const Header = () => {
                 </Link>
                 <Link className="text-link" to={!user && "/login"} >
                     <div onClick={handleAuthentication} className="header__option">
-                        <span className="header__optionLineOne">{user ? "Welcome, " + user?.email.substring(0, user?.email.indexOf('@')) : "Welcome, guest"}</span>
+                        <span className="header__optionLineOne">{user ? "Welcome, " + user?.username : "Welcome, guest"}</span>
                         <span className="header__optionLineTwo">{user ? "Sign out" : "Sign in"}</span>
                     </div>
                 </Link>

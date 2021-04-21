@@ -15,7 +15,6 @@ const Login = () => {
     
     const loginClick = async (e) => {
         e.preventDefault();
-
         let result = await fetch(("http://localhost:8000/api/user/login"), {
             headers: {
                 "Content-Type": "application/json"
@@ -29,7 +28,19 @@ const Login = () => {
 
         console.log(result);
 
-        // history.push("/");
+        if(result.status === 200) {
+            alert("Log in successfully!");
+            history.push("/");
+        }
+        else if (result.status === 404) {
+            alert("Username does not exist!");
+        }
+        else if (result.status === 403) {
+            alert("Your password is incorrect!");
+        }
+        else {
+            alert("Error!")
+        }
     }
 
     return (

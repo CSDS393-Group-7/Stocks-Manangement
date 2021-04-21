@@ -9,7 +9,7 @@ const Signup = () => {
     const[password, setPassword] = useState('');
     const[retype, setRetype] = useState('');
   
-    async function registerClick(e) {
+    async function createUser(e) {
         e.preventDefault();
         if (password != retype) {
             alert("The two passwords do not match");
@@ -24,9 +24,16 @@ const Signup = () => {
                 password: password,
             })
         });
-
-        result = await result.json();
         console.log(result);
+        console.log(result.status);
+
+        if (result.status === 200) {
+            alert("Sign up successfully!");
+            history.push("/login");
+        }
+        else {
+            alert("Username already exists!");
+        }
     }
     
     return (
@@ -46,7 +53,7 @@ const Signup = () => {
 
                 </form>
 
-                <button className="signup__registerButton" onClick={registerClick}>Sign up</button>
+                <button className="signup__registerButton" onClick={createUser}>Sign up</button>
             </div>
         </div>
     );
