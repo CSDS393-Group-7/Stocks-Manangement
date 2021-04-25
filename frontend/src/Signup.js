@@ -6,6 +6,8 @@ const Signup = () => {
 
     const history = useHistory();
     const[username, setUsername] = useState('');
+    const[fullname, setFullname] = useState('');
+    const[email, setEmail] = useState('');
     const[password, setPassword] = useState('');
     const[retype, setRetype] = useState('');
   
@@ -21,6 +23,8 @@ const Signup = () => {
             method: "POST",
             body: JSON.stringify({
                 username: username,
+                fullname: fullname,
+                email: email,
                 password: password,
             })
         });
@@ -46,6 +50,10 @@ const Signup = () => {
                 <h1>Sign up</h1>
                 <form>
                     <input placeholder="Username" type="text" value={username} onChange={e => setUsername(e.target.value)}></input>
+
+                    <input placeholder="Full name" type="text" value={fullname} onChange={e => setFullname(e.target.value)}></input>
+
+                    <input placeholder="Email" type="text" value={email} onChange={e => setEmail(e.target.value)}></input>
 
                     <input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)}></input>
 
