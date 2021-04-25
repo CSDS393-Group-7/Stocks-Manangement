@@ -2,6 +2,7 @@
 
 require('dotenv').config();
 const fetch = require('node-fetch');
+const ObjectID = require('mongodb').ObjectID;
 
 const db = require('../database');
 
@@ -18,20 +19,27 @@ class News {
         .then(res => res.json())
         .then(data => data['data']['main']['stream'])
         .then(newsList => {
+            const formatted = [];
+
             newsList.forEach(news => {
                 const content = news['content'];
 
+                if (content['clickThroughUrl'] === null || content['thumbnail'] === null)
+                    return;
+
                 const insertData = {
+                    _id: content['id'],
                     title: content['title'],
-                    contentType: content['contentType'],
-                    thumbnailUrl: content['thumbnail']['resolutions'].slice(-1)['url'],
+                    contentType: content['contentType'] || "NEWS",
+                    thumbnailUrl: content['thumbnail']['resolutions'].slice(-1)[0]['url'],
                     originalUrl: content['clickThroughUrl']['url'],
                     provider: content['provider']['displayName'],
-                    publicationDate: content['pubDate'];
+                    publicationDate: content['pubDate'],
                 };
 
-                db.collection('news').insertOne(insertData);
+                formatted.push(insertData);
             });
+            db.collection('news').insertMany(formatted, { ordered: false });
         });
     }
 };
