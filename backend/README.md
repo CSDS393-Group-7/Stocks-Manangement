@@ -12,5 +12,5 @@
 ### News (/api/news)
 | URL  | Description | Request | Response |
 | ------------- | ------------- | ------------- | ------------- |
-| ```/api/news/get-list```  | [GET] Get the news list  |   | JSON: a list of news with the following format: <pre>[<br>   {<br>      "_id": "ee679e...",<br>      "title": "Title...",<br>      "contentType": "STORY" | "ARTICLE" ...,<br>      "thumbnailUrl": "https://...",<br>      "originalUrl": "https://...",<br>      "provider": "Bloomberg",<br>      "publicationDate": "2021-04-29T08:36:17.000Z"<br>   },<br>   ... <br>]</pre>  |
+| ```/api/news/get-list```  | [GET] Get the news list  |   | JSON: a list of news with the following format: <pre>[<br>   {<br>      "_id": "ee679e...",<br>      "title": "Title...",<br>      "contentType": "STORY" or "ARTICLE" ...,<br>      "thumbnailUrl": "https://...",<br>      "originalUrl": "https://...",<br>      "provider": "Bloomberg",<br>      "publicationDate": "2021-04-29T08:36:17.000Z"<br>   },<br>   ... <br>]</pre>  |
 | ```/api/news/search```  | [POST] Search by keywords | <pre>{<br>  Content-Type: application/json,<br>  Body: { <br>    keywords: text<br>  }<br>}</pre>  | JSON: a list of news with the same format as ```/api/news/get-list```  |
