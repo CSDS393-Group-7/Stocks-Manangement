@@ -1,0 +1,41 @@
+.header {
+    height: 60px;
+    align-items: center;
+    display: flex;
+    background-color: #131921;
+}
+
+.header__logo {
+    width: 60px;
+    object-fit: contain;
+    margin: 0 20px;
+    margin-top: 0px;
+}
+
+.header__nav {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.header__option {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: white;
+}
+
+.header__optionLineOne {
+    font-size: 10px;
+}
+
+.header__optionLineTwo {
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.text-link {
+    color: inherit;
+    text-decoration: inherit;
+}
+
