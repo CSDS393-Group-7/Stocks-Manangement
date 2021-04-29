@@ -20,7 +20,7 @@ db.connect('mongodb://localhost:27017/stock-management', (err) => {
 
     app.use('/api/user', user);
     app.use('/api/news', news);
-
+    
     app.listen(port, () => {
         console.log(`Successfully started server! Listening at port ${port}`);
     });
