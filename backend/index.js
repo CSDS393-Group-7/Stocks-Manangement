@@ -7,11 +7,14 @@ const auth = require('./middleware/auth');
 
 const user = require('./routes/user.route');
 const news = require('./routes/news.route');
+const stocks = require('./routes/stock.route')
 
 const app = express();
 const port = 8000;
 
-db.connect('mongodb://localhost:27017/stock-management', (err) => {
+
+
+db.connect(process.env.DATABASE, (err) => {
     if (err)
         throw err;
 
@@ -23,6 +26,7 @@ db.connect('mongodb://localhost:27017/stock-management', (err) => {
     app.use('/api/user', user);
     app.use('/api/news', news);
     
+    app.use('/api/stocks', stocks);
     app.listen(port, () => {
         console.log(`Successfully started server! Listening at port ${port}`);
     });

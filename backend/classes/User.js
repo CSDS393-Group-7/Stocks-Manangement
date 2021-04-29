@@ -10,6 +10,7 @@ class User {
             password: hashPwd,
             fullName: fullName,
             email: email,
+            watchlist: []
         });
     };
 
@@ -23,6 +24,16 @@ class User {
 
     async getPwdFromDb() {
         return (await db.collection(process.env.USER_COLLECTION).findOne({ username: this.username })).password;
+    }
+
+    async getWatchlist() {
+        return (await db.collection(process.env.USER_COLLECTION).findOne({ username: this.username})).watchlist;
+    }
+
+    async insertNewStockToWatchList(stock) {
+        return (await db.collection(process.env.USER_COLLECTION).updateOne(
+            { username: this.username},
+            { $push: { watchlist: stock}}))
     }
 };
 

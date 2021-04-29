@@ -11,7 +11,7 @@ exports.connect = (url, doneCallback) => {
     MongoClient.connect(url, { useUnifiedTopology: true }, (err, db) => {
         if (err)
             return doneCallback(err);
-        state.db = db.db('stock-management');
+        state.db = db.db('CSDS393');
         doneCallback();
     });
 };

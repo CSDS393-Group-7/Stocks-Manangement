@@ -49,17 +49,14 @@ def filter(comment, db):
                                                           'year': 1}})
     print("Published in database")
     return tokenized_comment
-    # print({k: v for k, v in sorted(stock_list.items(), key=lambda item: -item[1]) if v != 0}
-
 
 try:
     arg_length = len(sys.argv)
-    myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+    myclient = pymongo.MongoClient("mongodb+srv://hieu:Hieu1234@cluster0.uuizv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
     mydb = myclient["CSDS393"]
     mycol = mydb[sys.argv[arg_length - 1]]
     print(sys.argv[arg_length - 1])
     kafka_consumer = connect_kafka_consumer(int(sys.argv[arg_length - 2]))
-    print(int(sys.argv[arg_length - 2]))
     while True:
         data = kafka_consumer.poll(100.0)
         for tp, comments in data.items():
