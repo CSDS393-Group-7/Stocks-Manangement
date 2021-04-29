@@ -1,35 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import "./StockManagement.css";
-import { Table } from '@material-ui/core';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { io } from "socket.io-client"
+import { io } from "socket.io-client";
+import MUIDataTable from "mui-datatables";
 
 const StockManagement = () => {
-    const [input, setInput] = useState([]);
+    const columns = ["Stock Name", "Stock Code", "Total Return", "Quantity purchased", "Price purchased", "Market Cap"];
 
-    const createData = (id, name, code, price, change) => {
-        return { id, name, code, price, change};
-    };
-    const [rows, setRows] = useState([
-        createData(1, "Apple", "AAPL", 24, 4.0),
-        createData(2, "Tesla", "TSL", 37, 4.3),
-        createData(3, "Vietcombank", "VNA", 24, 6.0),
-        createData(4, "Faccebook", "FB", 67, 4.3),
-        createData(5, "Vietnam Airlines", "VNA", 49, 3.9),
+    const [data, setData] = useState([
+        ["Apple", "AAPL", 24, 4.0, 4.0, 4.0],
+        ["Apple", "AAPL", 24, 4.0, 4.0, 4.0],
+        ["Apple", "AAPL", 24, 4.0, 4.0, 4.0],
+        ["Apple", "AAPL", 24, 4.0, 4.0, 4.0],
     ]);
 
-    
-    
-    
+    const options = {
+        filterType: 'checkbox',
+    };
+
+
+    const [input, setInput] = useState([]);
+   
     const handleAdd = e => {
         e.preventDefault();
-        setRows([...rows, createData(rows.length + 1, input, "Code", "Price", "Change")]);
+        setData([... data, [input, "Code", 0, 0, 0, 0]]);
         setInput('');
+        console.log(data[0][1])
     }
      
     useEffect(() => {
@@ -37,53 +32,31 @@ const StockManagement = () => {
         socket.on("change-type", (event) => {
             const data = event
             if (data !== undefined) {
-                setRows(rows => {
-                    for(let i = 0; i < rows.length; i++) {
-                        if(rows[i].name === data["stock"]) {
-                            let oldPrice = rows[i].price;
-                            rows[i].price = data["price"];
-                            rows[i].change = rows[i].price - oldPrice;
-                            return [...rows]
+                setData(row => {
+                    for(let i = 0; i < data.length; i++) {
+                        if(row[0] === data["stock"]) {
+                            let oldPrice = row[4];
+                            row[3] = data["price"] - oldPrice;
+                            return [...data]
                         }
                     }
-                    return [...rows]
-                })
+                    return [...data]
+                }) 
             }
         })
         
     }, [])
-    
 
+    
     return (
         <div>
-            <h1>Stock Management Table</h1>
-            <TableContainer component={Paper}>
-            <Table>
-                <TableHead>
-                <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell align="right">ID</TableCell>
-                    <TableCell align="right">Code</TableCell>
-                    <TableCell align="right">Price</TableCell>
-                    <TableCell align="right">Change</TableCell>
-                </TableRow>
-                </TableHead>
-                <TableBody>
-                {rows.map((row) => (
-                    <TableRow key={row.name}>
-                    <TableCell component="th" scope="row">
-                        {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.id}</TableCell>
-                    <TableCell align="right">{row.code}</TableCell>
-                    <TableCell align="right">{row.price}</TableCell>
-                    <TableCell align="right">{row.change}</TableCell>
-                    </TableRow>
-                ))}
-                </TableBody>
-            </Table>
-            </TableContainer>
-
+            <MUIDataTable 
+                title={"Stock Management Table"} 
+                data={data} 
+                columns={columns} 
+                options={options} 
+            />
+    
             <form className="stock__input">
                     <input
                         value={input}
