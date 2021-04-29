@@ -24,17 +24,35 @@ function News() {
 
   const [searchText, setSearchText] = useState('');
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [isExpanded, setIsExpanded] = useState(false);
 
   const [newsList, setNewsList] = useState([]);
-
-  const [newsToView, setNewsToView] = useState({});
 
   useEffect(() => {
     fetch('http://localhost:8000/api/news/get-list', { method: 'GET' })
     .then(res => res.json())
     .then(data => setNewsList(data));
   }, []);
+
+  const handleSearchKeyDown = (e) => {
+    if (e.keyCode !== 13)
+      return;
+    fetch('http://localhost:8000/api/news/search', {
+      headers: {
+          "Content-Type": "application/json"
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        keywords: searchText
+      })
+    }).then(res => res.json())
+      .then(data => {
+        setNewsList(data);
+        setIsLoading(false);
+      });
+  }
 
   return (
     <Grid container className={classes.root}>
@@ -44,6 +62,8 @@ function News() {
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           fullWidth
+          helperText="Type keywords and Enter"
+          onKeyDown={handleSearchKeyDown}
           margin='dense'
           variant="outlined"
         />
