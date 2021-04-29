@@ -30,10 +30,27 @@ class User {
         return (await db.collection(process.env.USER_COLLECTION).findOne({ username: this.username})).watchlist;
     }
 
-    async insertNewStockToWatchList(stock) {
-        return (await db.collection(process.env.USER_COLLECTION).updateOne(
-            { username: this.username},
-            { $push: { watchlist: stock}}))
+    async existedStock(stock) {
+        return await db.collection(process.env.USER_COLLECTION).findOne({ 
+            username: this.username, 
+            "watchlist.stock" : stock
+        });
+    }
+    async insertNewStockToWatchList(data) {
+        const existed = !!await this.existedStock(data.stock);
+        const newQuantity = parseInt(data.quantity);
+        if(existed) {
+           return await db.collection(process.env.USER_COLLECTION).updateOne(
+               { username: this.username, "watchlist.stock" : data.stock},
+               {"$inc": {"watchlist.$.quantity" : newQuantity}}
+           ); 
+        }
+        else {
+            return (await db.collection(process.env.USER_COLLECTION).updateOne(
+                { username: this.username},
+                { $push: { watchlist: data}}
+            ));
+        }
     }
 };
 
