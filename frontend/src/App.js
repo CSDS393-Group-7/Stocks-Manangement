@@ -4,6 +4,7 @@ import Home from './Home';
 import Login from './Login';
 import Signup from './Signup';
 import StockManagement from './StockManagement';
+import News from './News';
 import Header from "./Header";
 
 function App() {
@@ -20,6 +21,9 @@ function App() {
           </Route>
           <Route path="/stockmanagement">
             <StockManagement></StockManagement>
+          </Route>
+          <Route path="/news">
+            <News></News>
           </Route>
           <Route path="/">
             <Home></Home>
