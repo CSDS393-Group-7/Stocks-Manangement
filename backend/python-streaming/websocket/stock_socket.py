@@ -2,9 +2,9 @@ import websocket
 import json
 import pymongo
 
-stocks = ["AAPL", "AMZN", "BINANCE:BTCUSDT","BINANCE:ETHUSDT", "BINANCE:RVNUSDT", "BINANCE:ETCUSDT"]
-myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-mydb = myclient["StockPrice"]
+stocks = ["AAPL", "AMZN","TSLA","MSFT", "BINANCE:BTCUSDT","BINANCE:ETHUSDT", "BINANCE:RVNUSDT", "BINANCE:ETCUSDT"]
+myclient = pymongo.MongoClient("mongodb://localhost:27017/stock-management")
+mydb = myclient["stock-management"]
 mycol = mydb['Price']
 def on_message(ws, message):
     try:

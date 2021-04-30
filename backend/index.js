@@ -9,21 +9,23 @@ const user = require('./routes/user.route');
 const news = require('./routes/news.route');
 
 const app = express();
-const port = 8000;
 
+const port = 8000;
+const socketPort = 3080;
 db.connect('mongodb://localhost:27017/stock-management', (err) => {
     if (err)
         throw err;
 
-    console.log('Successfully connected to MongoDB');
-    app.use(express.json());
-    app.use(cors());
-    app.use(express.urlencoded({ extended: true }));
+    const rest_app = require('./server/rest_server.js');
+    const socket_app = require('./server/socket_server.js');
+    const Price = require('./classes/Price.js');
 
-    app.use('/api/user', user);
-    app.use('/api/news', news);
-    
-    app.listen(port, () => {
+    const server = rest_app.listen(port, () => {
         console.log(`Successfully started server! Listening at port ${port}`);
     });
+
+    const socketServer = socket_app.listen(socketPort, () => {
+        console.log(`Sucessfully started socket server! Listening at port ${socketPort}`)
+    })
+    Price.startSocket(socketServer, db)
 });
