@@ -22,8 +22,6 @@ def on_message(ws, message):
     except Exception as e:
         print("Exception occurs")
 
-
-
 def on_error(ws, error):
     print(error)
 
@@ -35,11 +33,11 @@ def on_open(ws):
         ws.send('{"type":"subscribe","symbol":"%s"}'%(stock))
 
 if __name__ == "__main__":
-    while True:
-        websocket.enableTrace(True)
-        ws = websocket.WebSocketApp("wss://ws.finnhub.io?token=c0ao2gv48v6sc0grn8j0",
-                                  on_message = on_message,
-                                  on_error = on_error,
-                                  on_close = on_close)
-        ws.on_open = on_open
-        ws.run_forever()
+    websocket.enableTrace(True)
+    ws = websocket.WebSocketApp("wss://ws.finnhub.io?token=c0ao2gv48v6sc0grn8j0",
+                              on_message = on_message,
+                              on_error = on_error,
+                              on_close = on_close)
+    ws.on_open = on_open
+    # ws.send('{"type":"subscribe","symbol":"%s"}' % ('MSFT'))
+    ws.run_forever()

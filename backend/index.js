@@ -7,6 +7,7 @@ const auth = require('./middleware/auth');
 
 const user = require('./routes/user.route');
 const news = require('./routes/news.route');
+const stocks = require('./routes/stock.route')
 
 const app = express();
 

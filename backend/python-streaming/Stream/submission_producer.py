@@ -40,18 +40,6 @@ def remove_emoji(comment):
     cleaned_comment = emoji_pattern.sub(r'', comment)
     return cleaned_comment
 
-# id = 0
-# def traverse_cmt_tree(comment):
-#     try:
-#         publish_message(kafka_producer, 'raw_reddit_news', 'news', remove_emoji(str(comment.body)))
-#         for reply in comment.replies._comments:
-#             if type(reply).__name__ != 'MoreComments':
-#                 traverse_cmt_tree(reply)
-#                 # news = remove_emoji(str(i.body))
-#                 # publish_message(kafka_producer, 'reddit_news', 'news', news)
-#     except Exception as e:
-#         print(e)
-
 if len(sys.argv) >= 2:
     try:
         kafka_producer = connect_kafka_producer()

@@ -11,18 +11,17 @@ class Loader(object):
 def main(args):
     try:
         load = Loader()
-        os.chdir(r"C:\Users\hieun\PycharmProjects\pythonProject\Stream")
-        # sequential = ['python comment_consumer.py'] \
-        #              + ["python comment_producer.py " + arg for arg in args if arg != 'main.py'] \
-        #              + ["python submission_producer.py " + arg for arg in args if arg != 'main.py']
+        os.chdir(r"C:\Users\hieun\github\Stocks-Manangement\backend\python-streaming\Stream")
         sequential = []
         i = 1
-        while i < len(sys.argv):
-            sequential.append("python comment_consumer.py " + sys.argv[i + 1] + " " + sys.argv[i + 2])
-            sequential.append("python submission_producer.py " + sys.argv[i] + " " + sys.argv[i + 1])
-            sequential.append("python comment_producer.py " + sys.argv[i] + " " + sys.argv[i + 1])
-            i = i + 3
-        print(sequential)
+        sequential.append("python comment_consumer.py 0 stocksFrequency")
+        sequential.append("python submission_producer.py stocks 0")
+        sequential.append("python comment_producer.py stocks 0")
+
+        sequential.append("python comment_consumer.py 1 wallstreetsFrequency")
+        sequential.append("python submission_producer.py wallstreetbets 1")
+        sequential.append("python comment_producer.py wallstreetbets 1")
+
         threads = [threading.Thread(target=load.subprocess_cmd, args=(fileList, ))
                    for fileList in sequential]
         for thread in threads:

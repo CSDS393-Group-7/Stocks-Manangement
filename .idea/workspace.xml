@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="fc80fd92-d358-490f-b1f3-bef7232d7e87" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/classes/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/classes/User.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/python-streaming/Stream/client_mongo.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/python-streaming/Stream/mongo_watch.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/python-streaming/stock_crawler/.vscode/settings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/python-streaming/stock_crawler/scrapy.cfg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/python-streaming/stock_crawler/stock_crawler/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/python-streaming/stock_crawler/stock_crawler/items.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/python-streaming/stock_crawler/stock_crawler/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/python-streaming/stock_crawler/stock_crawler/middlewares.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/python-streaming/stock_crawler/stock_crawler/pipelines.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/python-streaming/stock_crawler/stock_crawler/settings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/python-streaming/stock_crawler/stock_crawler/spiders/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/python-streaming/stock_crawler/stock_crawler/spiders/current_stocks.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/python-streaming/stock_crawler/stock_crawler/spiders/stock_spider.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/user.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/user.route.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1rULEk7vEkasXTARKMc9EsOxKEr" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fc80fd92-d358-490f-b1f3-bef7232d7e87" name="Default Changelist" comment="" />
+      <created>1619025612136</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1619025612136</updated>
+    </task>
+    <servers />
+  </component>
+</project>
