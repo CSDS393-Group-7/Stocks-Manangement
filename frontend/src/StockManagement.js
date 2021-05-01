@@ -7,7 +7,7 @@ const StockManagement = () => {
     const columns = ["Stock Name", "Stock Code", "Total Return", "Quantity purchased", "Price purchased", "Market Cap"];
 
     const [data, setData] = useState([
-        ["Apple", "AAPL", 24, 4.0, 4.0, 4.0],
+        ["BINANCE:ETHUSDT", "AAPL", 24, 4.0, 4.0, 4.0],
         ["Apple", "AAPL", 24, 4.0, 4.0, 4.0],
         ["Apple", "AAPL", 24, 4.0, 4.0, 4.0],
         ["Apple", "AAPL", 24, 4.0, 4.0, 4.0],
@@ -28,26 +28,24 @@ const StockManagement = () => {
     }
      
     useEffect(() => {
-        const socket = io('localhost:8080');
+        const socket = io('localhost:3080');
         socket.on("change-type", (event) => {
             const data = event
             if (data !== undefined) {
                 setData(row => {
-                    for(let i = 0; i < data.length; i++) {
-                        if(row[0] === data["stock"]) {
-                            let oldPrice = row[4];
-                            row[3] = data["price"] - oldPrice;
-                            return [...data]
+                    for(let i = 0; i < row.length; i++) {
+                        if(row[i][0] === data["stock"]){
+                            row[i][4] = data["price"];
+                            return [...row];
                         }
                     }
-                    return [...data]
+                    // console.log(row)
+                    return [...row];
                 }) 
             }
-        })
-        
+        }) 
     }, [])
 
-    
     return (
         <div>
             <MUIDataTable 
