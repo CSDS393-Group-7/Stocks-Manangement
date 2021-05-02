@@ -1,8 +1,10 @@
 import { Paper, CardHeader, Box, makeStyles } from '@material-ui/core';
 import React from 'react';
-import Chart from './Chart.js';
-import "./Home.css";
-import News from './News/index.js';
+
+import Chart from '../components/Chart';
+import News from '../components/News';
+
+import "../css/Home.css";
 
 const useStyles = makeStyles(theme => ({
   box: {

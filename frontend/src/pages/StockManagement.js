@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import "./StockManagement.css";
 import { io } from "socket.io-client";
 import MUIDataTable from "mui-datatables";
+
+import "../css/StockManagement.css";
 
 const StockManagement = () => {
     const columns = ["Stock Name", "Stock Code", "Total Return", "Quantity purchased", "Price purchased", "Market Cap"];

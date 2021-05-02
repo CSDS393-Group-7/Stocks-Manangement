@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import "../../css/Header.css";
+
+import { Link } from 'react-router-dom';
+import UserCard from './UserCard';
 
 import { Box, List, ListItem, makeStyles } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import UserCard from './NavBar/UserCard';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -55,7 +57,7 @@ function NavBar() {
       label: 'Register',
       path: '/signup',
     },
-  ]
+  ];
 
   return (
     <Box className={classes.root}>

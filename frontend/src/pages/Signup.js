@@ -1,7 +1,8 @@
 import { TextField, makeStyles, Button } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import "./Signup.css";
+
+import "../css/Signup.css";
 
 const useStyles = makeStyles(theme => ({
     textField: {

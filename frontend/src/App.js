@@ -1,13 +1,11 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import './App.css';
-import Home from './Home';
-import Login from './Login';
-import Signup from './Signup';
-import StockManagement from './StockManagement';
-import News from './News';
-import Header from "./Header";
-import { Box, Grid, makeStyles } from '@material-ui/core';
-import NavBar from './NavBar';
+import './css/App.css';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import StockManagement from './pages/StockManagement';
+import { Box, makeStyles } from '@material-ui/core';
+import NavBar from './components/NavBar';
 
 const useStyles = makeStyles(theme => ({
   content: {
