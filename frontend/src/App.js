@@ -12,8 +12,7 @@ import NavBar from './NavBar';
 const useStyles = makeStyles(theme => ({
   content: {
     width: '100%',
-    paddingLeft: '50px',
-    paddingTop: '20px',
+    padding: '20px 50px 0px',
   }
 }));
 
@@ -43,7 +42,6 @@ function App() {
           </Box>
         </Box>
       </Router>
-      
     </div>
   );
 }

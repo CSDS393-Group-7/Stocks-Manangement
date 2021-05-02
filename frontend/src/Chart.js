@@ -56,7 +56,7 @@ function Chart(props) {
   }, []);
 
   return (
-    <div id="chartdiv" style={{ height: "500px" }}></div>
+    <div id="chartdiv" style={{ height: "450px" }}></div>
   ); 
 }
 

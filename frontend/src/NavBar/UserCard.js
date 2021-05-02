@@ -2,8 +2,6 @@ import React from 'react';
 
 import { makeStyles, Avatar, Typography } from '@material-ui/core';
 
-import MinhHieuIdol from '../static/default-avatar.jpg';
-
 const useStyles = makeStyles(theme => ({
   root: {
     borderRadius: '12px',
@@ -23,7 +21,7 @@ function UserCard(props) {
 
   return (
     <div className={classes.root}>
-      <Avatar alt="Admin" src={MinhHieuIdol} />
+      <Avatar alt="Admin" src="/default-avatar.jpg" />
       <div className={classes.info}>
         <Typography variant="subtitle2">{props.name}</Typography>
         <Typography variant="body2">{props.role}</Typography>

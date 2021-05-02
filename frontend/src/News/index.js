@@ -9,13 +9,14 @@ import FullContentDialog from './FullContentDialog';
 const useStyles = makeStyles((theme) => ({
   root: {
     justifyContent: 'center',
-    marginTop: '20px',
+    marginTop: '10px',
   },
   seeMoreButton: {
     marginLeft: 'auto',
   },
   newsListCard: {
     marginTop: '5px',
+    padding: '0px 5px 0px'
   }
 }));
 
@@ -56,35 +57,33 @@ function News() {
 
   return (
     <Grid container className={classes.root}>
-      <Grid item xs={3}>
-        <TextField
-          label="Search"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          fullWidth
-          helperText="Type keywords and Enter"
-          onKeyDown={handleSearchKeyDown}
-          margin='dense'
-          variant="outlined"
-        />
-        <Card elevation={0} className={classes.newsListCard}>
-          {newsList.map((news, id) => (isExpanded || id < 5) && (
-            <>
-              <BriefNewsBox {...news} handleViewNews={() => window.open(news['originalUrl'], "_blank")} />
-              <Divider />
-            </>
-          ))}
-          <CardActions>
-            <Button 
-              className={classes.seeMoreButton}
-              endIcon={!isExpanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-              onClick={() => setIsExpanded(oldVal => !oldVal)}
-            >
-              {!isExpanded ? "See More" : "See Less"}
-            </Button>
-          </CardActions>
-        </Card>
-      </Grid>
+      <TextField
+        label="Search"
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+        fullWidth
+        helperText="Type keywords and Enter"
+        onKeyDown={handleSearchKeyDown}
+        margin='dense'
+        variant="outlined"
+      />
+      <Card elevation={0} className={classes.newsListCard}>
+        {newsList.map((news, id) => (isExpanded || id < 5) && (
+          <>
+            <BriefNewsBox {...news} handleViewNews={() => window.open(news['originalUrl'], "_blank")} />
+            <Divider />
+          </>
+        ))}
+        <CardActions>
+          <Button 
+            className={classes.seeMoreButton}
+            endIcon={!isExpanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+            onClick={() => setIsExpanded(oldVal => !oldVal)}
+          >
+            {!isExpanded ? "See More" : "See Less"}
+          </Button>
+        </CardActions>
+      </Card>
     </Grid>
   );
 }
