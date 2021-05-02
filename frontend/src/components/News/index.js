@@ -3,8 +3,8 @@ import { Button, Card, CardActions, CardContent, Divider, Grid, makeStyles, Pape
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+
 import BriefNewsBox from './BriefNewsBox';
-import FullContentDialog from './FullContentDialog';
 
 const useStyles = makeStyles((theme) => ({
   root: {

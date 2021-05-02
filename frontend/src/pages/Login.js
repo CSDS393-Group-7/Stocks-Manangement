@@ -1,7 +1,8 @@
 import { TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import "./Login.css";
+
+import "../css/Login.css";
 
 const Login = () => {
 
