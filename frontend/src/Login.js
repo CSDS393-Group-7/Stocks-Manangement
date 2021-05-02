@@ -1,3 +1,4 @@
+import { TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import "./Login.css";
@@ -52,9 +53,9 @@ const Login = () => {
             <div className="login__container">
                 <h1>Login</h1>
                 <form>
-                    <input placeholder="Username" type="text" value={username} onChange={e => setUsername(e.target.value)}></input>
+                    <TextField placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} fullWidth />
 
-                    <input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)}></input>
+                    <TextField placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} fullWidth margin="normal" />
 
                     <button className="login__signInButton" type="submit" onClick={loginClick}>Login</button>
                 </form>
