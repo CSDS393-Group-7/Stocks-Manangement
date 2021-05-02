@@ -47,10 +47,17 @@ router.post('/login', async (req, res) => {
     console.log(storedPwd);
     const matched = bcrypt.compareSync(rawPwd, storedPwd);
     if (matched)
-        res.json(jwt.sign(
-            username,
-            process.env.TOKEN_SECRET,
-        ));
+        res.json({
+            'token': jwt.sign(
+                username,
+                process.env.TOKEN_SECRET,
+            ),
+            'info': {
+                username: username,
+                fullName: await user.getFullName(),
+                email: await user.getEmail(),
+            },
+        });
     else
         res.status(403).json('Password mismatched');
 });

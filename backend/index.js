@@ -13,7 +13,8 @@ const app = express();
 
 const port = 8000;
 const socketPort = 3080;
-db.connect('mongodb://localhost:27017/stock-management', (err) => {
+
+db.connect(process.env.DATABASE, (err) => {
     if (err)
         throw err;
 

@@ -25,6 +25,14 @@ class User {
     async getPwdFromDb() {
         return (await db.collection(process.env.USER_COLLECTION).findOne({ username: this.username })).password;
     }
+    
+    async getFullName() {
+        return (await db.collection(process.env.USER_COLLECTION).findOne({ username: this.username })).fullName;
+    }
+
+    async getEmail() {
+        return (await db.collection(process.env.USER_COLLECTION).findOne({ username: this.username })).email;
+    }
 
     async getWatchlist() {
         return (await db.collection(process.env.USER_COLLECTION).findOne({ username: this.username})).watchlist;
