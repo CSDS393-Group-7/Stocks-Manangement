@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   title: {
     paddingLeft: '10px',
     display: 'block',
-    width: '350px',
+    width: '250px',
     fontWeight: 'bold',
   },
   readButton: {
