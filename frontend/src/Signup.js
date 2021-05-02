@@ -1,8 +1,19 @@
+import { TextField, makeStyles, Button } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import "./Signup.css";
 
+const useStyles = makeStyles(theme => ({
+    textField: {
+        marginBottom: '10px',
+    },
+    signupButton: {
+        marginTop: '20px',
+    }
+}));
+
 const Signup = () => {
+    const classes = useStyles();
 
     const history = useHistory();
     const[username, setUsername] = useState('');
@@ -49,19 +60,14 @@ const Signup = () => {
             <div className="signup__container">
                 <h1>Sign up</h1>
                 <form>
-                    <input placeholder="Username" type="text" value={username} onChange={e => setUsername(e.target.value)}></input>
-
-                    <input placeholder="Full name" type="text" value={fullname} onChange={e => setFullname(e.target.value)}></input>
-
-                    <input placeholder="Email" type="text" value={email} onChange={e => setEmail(e.target.value)}></input>
-
-                    <input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)}></input>
-
-                    <input placeholder="Retype your password" type="password" value={retype} onChange={e => setRetype(e.target.value)}></input>
-
+                    <TextField className={classes.textField} placeholder="Username" type="text" value={username} onChange={e => setUsername(e.target.value)} fullWidth />
+                    <TextField className={classes.textField} placeholder="Full name" type="text" value={fullname} onChange={e => setFullname(e.target.value)} fullWidth />
+                    <TextField className={classes.textField} placeholder="Email" type="text" value={email} onChange={e => setEmail(e.target.value)} fullWidth />
+                    <TextField className={classes.textField} placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} fullWidth />
+                    <TextField className={classes.textField} placeholder="Retype your password" type="password" value={retype} onChange={e => setRetype(e.target.value)} fullWidth />
                 </form>
 
-                <button className="signup__registerButton" onClick={createUser}>Sign up</button>
+                <Button className={classes.signupButton} onClick={createUser} variant="outlined">Sign up</Button>
             </div>
         </div>
     );

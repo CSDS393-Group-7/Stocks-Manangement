@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const auth = require('../middleware/auth');
 
 const User = require('../classes/User');
-
+const db = require('../database');
 router.post('/create', async (req, res) => {
     const username = req.body.username;
     const rawPwd = req.body.password;

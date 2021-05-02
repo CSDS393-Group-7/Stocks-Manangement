@@ -10,6 +10,7 @@ class User {
             password: hashPwd,
             fullName: fullName,
             email: email,
+            watchlist: []
         });
     };
 
@@ -23,6 +24,33 @@ class User {
 
     async getPwdFromDb() {
         return (await db.collection(process.env.USER_COLLECTION).findOne({ username: this.username })).password;
+    }
+
+    async getWatchlist() {
+        return (await db.collection(process.env.USER_COLLECTION).findOne({ username: this.username})).watchlist;
+    }
+
+    async existedStock(stock) {
+        return await db.collection(process.env.USER_COLLECTION).findOne({ 
+            username: this.username, 
+            "watchlist.stock" : stock
+        });
+    }
+    async insertNewStockToWatchList(data) {
+        const existed = !!await this.existedStock(data.stock);
+        const newQuantity = parseInt(data.quantity);
+        if(existed) {
+           return await db.collection(process.env.USER_COLLECTION).updateOne(
+               { username: this.username, "watchlist.stock" : data.stock},
+               {"$inc": {"watchlist.$.quantity" : newQuantity}}
+           ); 
+        }
+        else {
+            return (await db.collection(process.env.USER_COLLECTION).updateOne(
+                { username: this.username},
+                { $push: { watchlist: data}}
+            ));
+        }
     }
 };
 

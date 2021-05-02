@@ -4,6 +4,7 @@ import Home from './Home';
 import Login from './Login';
 import Signup from './Signup';
 import StockManagement from './StockManagement';
+import News from './News';
 import Header from "./Header";
 import { Box, Grid, makeStyles } from '@material-ui/core';
 import NavBar from './NavBar';
@@ -41,7 +42,6 @@ function App() {
             </Switch>
           </Box>
         </Box>
-        {/* <Header/> */}
       </Router>
       
     </div>
