@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import "../../css/Header.css";
 import { Link } from 'react-router-dom';
 import UserCard from './UserCard';
-import { Box, Button, Chip, List, ListItem, makeStyles } from '@material-ui/core';
+import { Box, Button, Chip, List, ListItem, ListItemIcon, makeStyles } from '@material-ui/core';
+
+import HomeIcon from '@material-ui/icons/Home';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 
 import { useSelector } from 'react-redux';
 
@@ -11,8 +14,8 @@ const useStyles = makeStyles(theme => ({
     width: '250px',
     minWidth: '250px',
     borderRight: '1px solid rgba(145, 158, 171, 0.24)',
-    paddingTop: '20px',
-    position: 'relative',
+    height: '100vh',
+    position: 'sticky',
   },
   navItem: {
     paddingLeft: '40px',
@@ -34,12 +37,15 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: theme.palette.primary.main,
     }
   },
+  navItemIcon: {
+    minWidth: '40px',
+  },
   loginButArea: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     position: 'absolute',
-    bottom: 50,
+    bottom: 20,
     left: 0,
     right: 0,
   },
@@ -57,25 +63,19 @@ function NavBar() {
     {
       label: 'Home',
       path: '/home',
+      icon: (<HomeIcon color={activeTab === 'Home' ? 'primary' : 'default'}/>),
     },
     {
       label: 'Stock Management',
       path: '/stockmanagement',
-    },
-    {
-      label: 'Login',
-      path: '/login',
-    },
-    {
-      label: 'Register',
-      path: '/signup',
+      icon: (<MonetizationOnIcon color={activeTab === 'Stock Management' ? 'primary' : 'default'} />),
     },
   ];
 
   const user = useSelector(state => state.user);
 
   // Tracks if there is a user logon.
-  const [isLogon, setIsLogon] = useState(true);
+  const [isLogon, setIsLogon] = useState(false);
 
   /**
    * Handles when user clicks the Logout button.
@@ -119,6 +119,9 @@ function NavBar() {
             to={nav['path']}
             onClick={() => setActiveTab(nav['label'])}
           >
+            <ListItemIcon className={classes.navItemIcon}>
+              {nav['icon']}
+            </ListItemIcon>
             {nav['label']}
           </ListItem>
         ))}
