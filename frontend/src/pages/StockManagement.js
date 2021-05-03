@@ -90,7 +90,7 @@ const StockManagement = () => {
         
     // }, [])
 
-    useEffect(async () => {
+    useEffect(() => {
         const fetchData = async () => {
             const result = await axios.get("http://localhost:8000/api/user/watchList", config);
             // const price = await axios.
@@ -98,30 +98,29 @@ const StockManagement = () => {
                 const stockList = convertDataToArray(result.data);
                 setData(stockList);
             }
-        }
-        await fetchData();
+        };
 
         const fetchPrice = async () => {
-            const listToSend = data.map(stock => stock[0]);
-            // console.log(listToSend, data);
-            const jsonList = {list: listToSend};
-            if(listToSend.length !== 0) {
-                const result = await axios.post("http://localhost:8000/api/price/stockPrice", jsonList);
-                if(result.data) {
-                    const stockList = result.data;
-                    setData(data => {
+            setData(async (data) => {
+                const listToSend = data.map(stock => stock[0]);
+                // console.log(listToSend, data);
+                const jsonList = {list: listToSend};
+                if(listToSend.length !== 0) {
+                    const result = await axios.post("http://localhost:8000/api/price/stockPrice", jsonList);
+                    if(result.data) {
+                        const stockList = result.data;
                         for(let i = 0; i < data.length; i++) {
                             data[i][3] = parseFloat(stockList[data[i][0]]);
                         }
                         return [...data];
-                    });
+                    }
                 }
-            }
-        }
-        const interval = setInterval(fetchPrice, 2000);
-        return () => {
-            clearInterval(interval);
+                return [...data];
+            })
         };
+
+        fetchData()
+        .then(() => setInterval(fetchPrice, 2000));
     }, [])
 
     return (
