@@ -4,19 +4,17 @@ import MUIDataTable from "mui-datatables";
 import { Paper, CardHeader, TextField } from '@material-ui/core';
 import "../css/StockManagement.css";
 import axios from 'axios';
-
+import { useSelector } from 'react-redux';
 const StockManagement = () => {
     const columns = ["Stock Code", "Quantity purchased", "Price purchased", "Current Price","Total Return"];
 
-    const [data, setData] = useState([
-        
-    ]);
+    const [data, setData] = useState([]);
 
     const options = {
         filterType: 'checkbox',
     };
 
-    const token = localStorage.getItem("jwt");
+    const token = useSelector(state => state.token);
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
@@ -88,35 +86,42 @@ const StockManagement = () => {
         return result;
     }
 
-    useEffect(() => {
+    // useEffect(() => {
+        
+    // }, [])
+
+    useEffect(async () => {
         const fetchData = async () => {
             const result = await axios.get("http://localhost:8000/api/user/watchList", config);
+            // const price = await axios.
             if(result.data) {
                 const stockList = convertDataToArray(result.data);
                 setData(stockList);
             }
         }
-        fetchData();
-    }, [])
+        await fetchData();
 
-    useEffect(() => {
-        const socket = io('localhost:3080');
-        socket.on("change-type", (event) => {
-            const data = event
-            if (data !== undefined) {
-                setData(row => {
-                    for(let i = 0; i < row.length; i++) {
-                        if(row[i][0] === data["stock"]){
-                            row[i][3] = data["price"];
-                            // total return = currentPrice * quantity - boughtPrice * quantity
-                            // row[i][2] = row[i][3] * [row][i][1] - row[i][2] * row[i][1]
-                            return [...row];
+        const fetchPrice = async () => {
+            const listToSend = data.map(stock => stock[0]);
+            // console.log(listToSend, data);
+            const jsonList = {list: listToSend};
+            if(listToSend.length !== 0) {
+                const result = await axios.post("http://localhost:8000/api/price/stockPrice", jsonList);
+                if(result.data) {
+                    const stockList = result.data;
+                    setData(data => {
+                        for(let i = 0; i < data.length; i++) {
+                            data[i][3] = parseFloat(stockList[data[i][0]]);
                         }
-                    }
-                    return [...row];
-                }) 
+                        return [...data];
+                    });
+                }
             }
-        }) 
+        }
+        const interval = setInterval(fetchPrice, 2000);
+        return () => {
+            clearInterval(interval);
+        };
     }, [])
 
     return (
