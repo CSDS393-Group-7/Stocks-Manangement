@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { io } from "socket.io-client";
 import MUIDataTable from "mui-datatables";
-import { Paper, CardHeader } from '@material-ui/core';
+import { Paper, CardHeader, TextField } from '@material-ui/core';
 import "../css/StockManagement.css";
 
 const StockManagement = () => {
-    const columns = ["Stock Name", "Stock Code", "Total Return", "Quantity purchased", "Price purchased", "Market Cap"];
+    const columns = ["Stock Name", "Stock Code", "Total Return", "Quantity purchased", "Price purchased", "Current price"];
 
     const [data, setData] = useState([
         ["BINANCE:ETHUSDT", "ETH", 24, 4.0, 4.0, 4.0],
@@ -44,7 +44,7 @@ const StockManagement = () => {
                     for(let i = 0; i < row.length; i++) {
                         if(row[i][0] === data["stock"]){
                             row[i][5] = data["price"];
-                            // total return = marketcap * quantity - boughtPrice * quantity
+                            // total return = currentPrice * quantity - boughtPrice * quantity
                             row[i][2] = row[i][5] * [row][i][3] - row[i][5] * row[i][3]
                             return [...row];
                         }
@@ -62,33 +62,30 @@ const StockManagement = () => {
                 <form className="stock__input">
                     <div className="stock__question">
                         <h4 className="required">Name</h4>
-                        <input
+                        <TextField
                             value={NameInput}
                             onChange={e => setNameInput(e.target.value)}
                             className="stock__inputField"
-                            placeholder="Stock name"
                             type='text'
-                        ></input>
+                        ></TextField>
                     </div>
                     <div className="stock__question">
                         <h4 className="required">Quantity purchased</h4>
-                        <input
+                        <TextField
                             value={QuantityInput}
                             onChange={e => setQuantityInput(e.target.value)}
                             className="stock__inputField"
-                            placeholder="Quantity purchased"
                             type='text'
-                        ></input>
+                        ></TextField>
                     </div>
                     <div className="stock__question">
                         <h4>Purchased price</h4>
-                        <input
+                        <TextField
                             value={PriceInput}
                             onChange={e => setPriceInput(e.target.value)}
                             className="stock__inputField"
-                            placeholder="Purchased price"
                             type='text'
-                        ></input>
+                        ></TextField>
                         </div>
                     <button onClick={handleAdd} type="submit" className="stock__inputButton">Add</button>
             </form>
