@@ -10,7 +10,7 @@ import NavBar from './components/NavBar';
 const useStyles = makeStyles(theme => ({
   content: {
     width: '100%',
-    padding: '20px 50px 0px',
+    padding: '35px 50px 0px',
   }
 }));
 
