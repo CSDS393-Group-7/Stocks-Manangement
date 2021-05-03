@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../../css/Header.css";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import UserCard from './UserCard';
 import { Box, Button, Chip, List, ListItem, ListItemIcon, makeStyles } from '@material-ui/core';
 
 import HomeIcon from '@material-ui/icons/Home';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import { useDispatch, useSelector } from 'react-redux';
-import {setUser} from "../../store/user/user";
+import {saveToken, setUser} from "../../store/user/user";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -58,7 +58,18 @@ const useStyles = makeStyles(theme => ({
 function NavBar() {
   const classes = useStyles();
 
+  const token = useSelector(state => state.token);
+  const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  
   const [activeTab, setActiveTab] = useState("Home");
+
+  useEffect(() => {
+    if (token != null) {
+      setIsLogin(true);
+    }
+  }, [token])
 
   const navList = [
     {
@@ -73,8 +84,6 @@ function NavBar() {
     },
   ];
 
-  const user = useSelector(state => state.user);
-
   // Tracks if there is a user login.
   const [isLogin, setIsLogin] = useState(false);
 
@@ -84,7 +93,13 @@ function NavBar() {
    * @param {*} event Param passed from the button's onClick
    */
   const handleLogoutClick = (event) => {
-
+    dispatch(saveToken(null));
+    setIsLogin(false);
+    dispatch(setUser({
+      username: "Your username",
+      fullname: "Your full name",
+      email: "Your email"
+  }));
   };
 
   /**
@@ -93,7 +108,7 @@ function NavBar() {
    * @param {*} event Param passed from the button's onClick
    */
   const handleSignupClick = (event) => {
-
+      history.push("/signup");
   };
 
   /**
@@ -102,7 +117,7 @@ function NavBar() {
    * @param {*} event Param passed from the button's onClick
    */
   const handleLoginClick = (event) => {
-    
+    history.push("/login");
   };
 
   return (

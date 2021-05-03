@@ -3,6 +3,7 @@ import { io } from "socket.io-client";
 import MUIDataTable from "mui-datatables";
 import { Paper, CardHeader, TextField } from '@material-ui/core';
 import "../css/StockManagement.css";
+import {useSelector} from "react-redux";
 import axios from 'axios';
 
 const StockManagement = () => {
@@ -16,7 +17,7 @@ const StockManagement = () => {
         filterType: 'checkbox',
     };
 
-    const token = localStorage.getItem("jwt");
+    const token = useSelector(state => state.token);
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
