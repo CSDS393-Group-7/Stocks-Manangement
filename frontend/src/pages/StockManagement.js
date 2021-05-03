@@ -93,7 +93,7 @@ const StockManagement = () => {
                     <button onClick={handleAdd} type="submit" className="stock__inputButton">Add</button>
             </form>
             </Paper>
-            <Paper>
+            <Paper className="stock__table">
                 <MUIDataTable 
                     title={"Stock Management Table"} 
                     data={data} 

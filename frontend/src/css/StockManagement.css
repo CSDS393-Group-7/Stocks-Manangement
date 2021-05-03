@@ -28,4 +28,8 @@
 .required:after {
     content:" *";
     color: red;
-  }
+}
+
+.stock__table {
+    margin-top: 35px;
+}
