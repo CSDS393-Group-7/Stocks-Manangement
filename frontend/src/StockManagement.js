@@ -26,11 +26,6 @@ const StockManagement = () => {
         setData([... data, newData]);
         console.log(data[0][1])
     }
-    
-    const handleAddToTable = (data) => {
-        const newData = [data.stock, "Code", 0, data.quantity, data.price, 0]
-        setData([... data, newData]);
-    }
 
     useEffect(() => {
         const socket = io('localhost:3080');

@@ -8,10 +8,7 @@ const StockManagement = () => {
     const columns = ["Stock Code", "Quantity purchased", "Price purchased", "Current Price","Total Return"];
 
     const [data, setData] = useState([
-        ["BINANCE:ETHUSDT", 24, 4.0, 4.0, 4.0],
-        ["AAPL", 24, 4.0, 4.0, 4.0],
-        ["VNA", 45, 5.0, 6.0, 4.0],
-        ["TSLA", 44, 6.5, 4.0, 7.0],
+        
     ]);
 
     const options = {
@@ -23,8 +20,8 @@ const StockManagement = () => {
         headers: { Authorization: `Bearer ${token}` }
     };
     const [NameInput, setNameInput] = useState('');
-    const [QuantityInput, setQuantityInput] = useState(0);
-    const [PriceInput, setPriceInput] = useState(0);
+    const [QuantityInput, setQuantityInput] = useState('');
+    const [PriceInput, setPriceInput] = useState('');
    
     const handleAdd = async e => {
         e.preventDefault();
@@ -102,7 +99,7 @@ const StockManagement = () => {
                         if(row[i][0] === data["stock"]){
                             row[i][3] = data["price"];
                             // total return = currentPrice * quantity - boughtPrice * quantity
-                            row[i][2] = row[i][3] * [row][i][1] - row[i][2] * row[i][1]
+                            // row[i][2] = row[i][3] * [row][i][1] - row[i][2] * row[i][1]
                             return [...row];
                         }
                     }
