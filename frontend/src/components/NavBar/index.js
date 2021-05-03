@@ -67,7 +67,8 @@ function NavBar() {
         <img className="header__logo" 
           src="https://media.istockphoto.com/vectors/green-recycling-logo-vector-id1097223620" alt="icon"></img>
       </Link>
-      <UserCard name={user[0].fullname} role={user[0].username} />
+      {console.log(user)}
+      {/* <UserCard name={user[0].fullname} role={user[0].username} /> */}
       <List>
         {navList.map(nav => (
           <ListItem 

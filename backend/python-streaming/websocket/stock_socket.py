@@ -3,8 +3,8 @@ import json
 import pymongo
 
 stocks = ["AAPL", "AMZN","TSLA","MSFT", "BINANCE:BTCUSDT","BINANCE:ETHUSDT", "BINANCE:RVNUSDT", "BINANCE:ETCUSDT"]
-myclient = pymongo.MongoClient("mongodb://localhost:27017/stock-management")
-mydb = myclient["stock-management"]
+myclient = pymongo.MongoClient("mongodb://localhost:27017/CSDS393")
+mydb = myclient["CSDS393"]
 mycol = mydb['Price']
 def on_message(ws, message):
     try:
@@ -39,5 +39,4 @@ if __name__ == "__main__":
                               on_error = on_error,
                               on_close = on_close)
     ws.on_open = on_open
-    # ws.send('{"type":"subscribe","symbol":"%s"}' % ('MSFT'))
     ws.run_forever()

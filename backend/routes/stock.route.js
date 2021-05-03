@@ -5,13 +5,13 @@ const router = express.Router();
 const User = require('../classes/User');
 const Stocks = require('../classes/Stocks');
 const auth = require('../middleware/auth');
-const db = require('../database');
 
 router.post('/addStock', auth.authenticateToken, async (req, res) => {
     const data = req.body;
     const user = new User(req.username);
-    await user.insertNewStockToWatchList(data);
-    res.send(200);
+    const result = await user.insertNewStockToWatchList(data);
+    res.status = 200;
+    res.json(result);
 });
 
 router.get('/topMentionedStocksSub', async (req, res) => {

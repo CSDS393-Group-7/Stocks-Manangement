@@ -62,4 +62,16 @@ router.post('/login', async (req, res) => {
         res.status(403).json('Password mismatched');
 });
 
+router.get('/watchlist', auth.authenticateToken, async (req, res) => {
+    const username = req.username;
+    const user = new User(username);
+    const result = await user.getWatchlist();
+    if(result) {
+        res.status = 200;
+        res.json(result);
+    }
+    else {
+        res.status(404);
+    }
+})
 module.exports = router;

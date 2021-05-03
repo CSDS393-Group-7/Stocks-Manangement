@@ -1,19 +1,13 @@
-import { TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setUser, saveToken } from '../store/user/user';
-import "../css/Login.css";
+import "./Login.css";
 import axios from 'axios';
 const Login = () => {
-
-    const URL = "http://localhost:8000/api/user/login";
 
     const history = useHistory();
     
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
-    const dispatch = useDispatch();
     
     const registerClick = () => {
         history.push("/signup");
@@ -41,13 +35,10 @@ const Login = () => {
             password: password,
         })
         const result = await axios.post("http://localhost:8000/api/user/login", body, config);
-        // console.log(result.data);
-        // localStorage.setItem("jwt", result.data.token);
+        localStorage.setItem("jwt", result.data);
 
         if(result.status === 200) {
             alert("Log in successfully!");
-            dispatch(saveToken(result.data.token));
-            dispatch(setUser(result.data.info));
             history.push("/");
         }
         else if (result.status === 404) {
@@ -63,13 +54,16 @@ const Login = () => {
 
     return (
         <div className="login">
+            <Link to="/">
+                <img className="login__logo" src="" alt="logo"/>
+            </Link>
 
             <div className="login__container">
                 <h1>Login</h1>
                 <form>
-                    <TextField placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} fullWidth />
+                    <input placeholder="Username" type="text" value={username} onChange={e => setUsername(e.target.value)}></input>
 
-                    <TextField placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} fullWidth margin="normal" />
+                    <input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)}></input>
 
                     <button className="login__signInButton" type="submit" onClick={loginClick}>Login</button>
                 </form>
