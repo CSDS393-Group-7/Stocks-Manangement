@@ -18,9 +18,9 @@ export function saveToken(tokenInput) {
 
 const defaultUser = [
   {
-    username: 'tung2222',
-    fullname: "Tran Thanh Tung",
-    email: "tungtran2222@gmail.com",
+    username: "Your username",
+    fullname: "Your full name",
+    email: "Your email",
   }
 ];
 

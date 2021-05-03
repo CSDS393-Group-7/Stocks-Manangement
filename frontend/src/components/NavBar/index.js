@@ -65,7 +65,7 @@ function NavBar() {
     <Box className={classes.root}>
       <Link to="/">
         <img className="header__logo" 
-          src="https://thumbs.dreamstime.com/b/growth-chart-infographic-chart-icon-white-icon-dark-background-growth-chart-infographic-chart-icon-white-icon-dark-156695206.jpg" alt="icon"></img>
+          src="https://media.istockphoto.com/vectors/green-recycling-logo-vector-id1097223620" alt="icon"></img>
       </Link>
       <UserCard name={user[0].fullname} role={user[0].username} />
       <List>

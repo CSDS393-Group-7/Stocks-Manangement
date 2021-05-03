@@ -6,14 +6,6 @@
     background-color: white;
 }
 
-.signup__logo {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    object-fit: contain;
-    width: 100px;
-    margin-right: auto;
-    margin-left: auto;
-}
 
 .signup__container {
     width: 300px;

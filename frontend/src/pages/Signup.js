@@ -56,10 +56,6 @@ const Signup = () => {
     
     return (
         <div className="signup">
-            <Link to="/">
-                <img className="signup__logo" src="" alt="logo"/>
-            </Link>
-
             <div className="signup__container">
                 <h1>Sign up</h1>
                 <form>

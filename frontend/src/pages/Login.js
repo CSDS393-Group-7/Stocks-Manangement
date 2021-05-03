@@ -51,9 +51,6 @@ const Login = () => {
 
     return (
         <div className="login">
-            <Link to="/">
-                <img className="login__logo" src="" alt="logo"/>
-            </Link>
 
             <div className="login__container">
                 <h1>Login</h1>

@@ -18,17 +18,21 @@ const StockManagement = () => {
         filterType: 'checkbox',
     };
 
-    const [NameInput, setNameInput] = useState([]);
-    const [QuantityInput, setQuantityInput] = useState([]);
-    const [PriceInput, setPriceInput] = useState([]);
+    const [NameInput, setNameInput] = useState('');
+    const [QuantityInput, setQuantityInput] = useState('');
+    const [PriceInput, setPriceInput] = useState('');
    
     const handleAdd = e => {
         e.preventDefault();
-        setData([... data, [NameInput, "Code", 0, QuantityInput, PriceInput, 0]]);
-        setNameInput('');
-        setQuantityInput('');
-        setPriceInput('');
-        console.log(data[0][1])
+        if (NameInput == '' || QuantityInput == '') {
+            alert("You cannot leave required fields blank");
+        }
+        else {
+            setData([... data, [NameInput, "Code", 0, QuantityInput, PriceInput, 0]]);
+            setNameInput('');
+            setQuantityInput('');
+            setPriceInput('');
+        }
     }
      
     useEffect(() => {
@@ -56,33 +60,36 @@ const StockManagement = () => {
             <Paper>
                 <CardHeader title="Add New Stock" />
                 <form className="stock__input">
-                    <h3>Your Stock's name</h3>
-                    <input
-                        value={NameInput}
-                        onChange={e => setNameInput(e.target.value)}
-                        className="stock__inputField"
-                        placeholder="Stock name"
-                        type='text'
-                    ></input>
-
-                    <h3>Quantity bought?</h3>
-                    <input
-                        value={QuantityInput}
-                        onChange={e => setQuantityInput(e.target.value)}
-                        className="stock__inputField"
-                        placeholder="Quantity purchased"
-                        type='text'
-                    ></input>
-
-                    <h3>Price when bought?</h3>
-                    <input
-                        value={PriceInput}
-                        onChange={e => setPriceInput(e.target.value)}
-                        className="stock__inputField"
-                        placeholder="Price purchased"
-                        type='text'
-                    ></input>
-
+                    <div className="stock__question">
+                        <h4 className="required">Name</h4>
+                        <input
+                            value={NameInput}
+                            onChange={e => setNameInput(e.target.value)}
+                            className="stock__inputField"
+                            placeholder="Stock name"
+                            type='text'
+                        ></input>
+                    </div>
+                    <div className="stock__question">
+                        <h4 className="required">Quantity purchased</h4>
+                        <input
+                            value={QuantityInput}
+                            onChange={e => setQuantityInput(e.target.value)}
+                            className="stock__inputField"
+                            placeholder="Quantity purchased"
+                            type='text'
+                        ></input>
+                    </div>
+                    <div className="stock__question">
+                        <h4>Purchased price</h4>
+                        <input
+                            value={PriceInput}
+                            onChange={e => setPriceInput(e.target.value)}
+                            className="stock__inputField"
+                            placeholder="Purchased price"
+                            type='text'
+                        ></input>
+                        </div>
                     <button onClick={handleAdd} type="submit" className="stock__inputButton">Add</button>
             </form>
             </Paper>
