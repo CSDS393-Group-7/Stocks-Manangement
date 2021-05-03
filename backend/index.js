@@ -22,7 +22,7 @@ db.connect(process.env.DATABASE, (err) => {
     });
 
     const socketServer = socket_app.listen(socketPort, () => {
-        console.log(`Sucessfully started socket server! Listening at port ${socketPort}`)
+        console.log(`Sucessfully started socket server! Listening at port ${socketPort}`);
     })
     Price.startSocket(socketServer, db)
 });

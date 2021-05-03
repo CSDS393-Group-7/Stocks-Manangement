@@ -31,9 +31,9 @@ function user(state=defaultUser, action) {
     case SET_USER:
       return [
         {
-            username: action.username,
-            fullname: action.fullname,
-            email: action.email
+            username: action.userInput.username,
+            fullname: action.userInput.fullname,
+            email: action.userInput.email
         }
       ];
     default:
@@ -41,11 +41,10 @@ function user(state=defaultUser, action) {
   }
 }
 
-
 function token(state=defaultToken, action) {
   switch (action.type) {
     case SAVE_TOKEN:
-      return action;
+      return action.tokenInput;
     default:
       return state;
   }

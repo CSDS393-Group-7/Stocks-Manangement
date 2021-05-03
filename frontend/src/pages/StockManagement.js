@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { io } from "socket.io-client";
 import MUIDataTable from "mui-datatables";
-import { Paper, CardHeader } from '@material-ui/core';
+import { Paper, CardHeader, TextField } from '@material-ui/core';
 import "../css/StockManagement.css";
 import axios from 'axios';
 const StockManagement = () => {
@@ -119,33 +119,30 @@ const StockManagement = () => {
                 <form className="stock__input">
                     <div className="stock__question">
                         <h4 className="required">Name</h4>
-                        <input
+                        <TextField
                             value={NameInput}
                             onChange={e => setNameInput(e.target.value)}
                             className="stock__inputField"
-                            placeholder="Stock name"
                             type='text'
-                        ></input>
+                        ></TextField>
                     </div>
                     <div className="stock__question">
                         <h4 className="required">Quantity purchased</h4>
-                        <input
+                        <TextField
                             value={QuantityInput}
                             onChange={e => setQuantityInput(e.target.value)}
                             className="stock__inputField"
-                            placeholder="Quantity purchased"
                             type='text'
-                        ></input>
+                        ></TextField>
                     </div>
                     <div className="stock__question">
                         <h4>Purchased price</h4>
-                        <input
+                        <TextField
                             value={PriceInput}
                             onChange={e => setPriceInput(e.target.value)}
                             className="stock__inputField"
-                            placeholder="Purchased price"
                             type='text'
-                        ></input>
+                        ></TextField>
                         </div>
                     <button onClick={handleAdd} type="submit" className="stock__inputButton">Add</button>
             </form>

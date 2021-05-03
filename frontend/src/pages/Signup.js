@@ -37,14 +37,12 @@ const Signup = () => {
             method: "POST",
             body: JSON.stringify({
                 username: username,
-                fullname: fullname,
+                fullName: fullname,
                 email: email,
                 password: password,
             })
         });
-        console.log(result);
-        console.log(result.status);
-
+       
         if (result.status === 200) {
             alert("Sign up successfully!");
             history.push("/login");
