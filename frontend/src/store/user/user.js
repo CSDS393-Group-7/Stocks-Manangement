@@ -31,9 +31,9 @@ function user(state=defaultUser, action) {
     case SET_USER:
       return [
         {
-            username: action.userInput.username,
-            fullname: action.userInput.fullname,
-            email: action.userInput.email
+          username: action.userInput.username,
+          fullname: action.userInput.fullname,
+          email: action.userInput.email
         }
       ];
     default:

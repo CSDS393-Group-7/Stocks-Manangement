@@ -3,6 +3,7 @@ import { io } from "socket.io-client";
 import MUIDataTable from "mui-datatables";
 import { Paper, CardHeader, TextField } from '@material-ui/core';
 import "../css/StockManagement.css";
+import {useSelector} from "react-redux";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
@@ -14,6 +15,7 @@ const StockManagement = () => {
     const options = {
         filterType: 'checkbox',
     };
+
     const token = useSelector(state => state.token);
     const config = {
         headers: { Authorization: `Bearer ${token}` }

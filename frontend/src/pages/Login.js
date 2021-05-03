@@ -72,7 +72,7 @@ const Login = () => {
                     <button className="login__signInButton" type="submit" onClick={loginClick}>Login</button>
                 </form>
 
-                <p> New user? Register now</p>
+                <p>New user? Register now</p>
 
                 <button onClick={registerClick} className="login__registerButton">Create account</button>
             </div>
