@@ -6,8 +6,8 @@ import { Box, Button, Chip, List, ListItem, ListItemIcon, makeStyles } from '@ma
 
 import HomeIcon from '@material-ui/icons/Home';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
-
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {setUser} from "../../store/user/user";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
     minWidth: '250px',
     borderRight: '1px solid rgba(145, 158, 171, 0.24)',
     height: '100vh',
+    top: 0,
     position: 'sticky',
   },
   navItem: {
@@ -74,8 +75,8 @@ function NavBar() {
 
   const user = useSelector(state => state.user);
 
-  // Tracks if there is a user logon.
-  const [isLogon, setIsLogon] = useState(false);
+  // Tracks if there is a user login.
+  const [isLogin, setIsLogin] = useState(false);
 
   /**
    * Handles when user clicks the Logout button.
@@ -101,7 +102,7 @@ function NavBar() {
    * @param {*} event Param passed from the button's onClick
    */
   const handleLoginClick = (event) => {
-
+    
   };
 
   return (
@@ -111,7 +112,7 @@ function NavBar() {
           src="https://media.istockphoto.com/vectors/green-recycling-logo-vector-id1097223620" alt="icon"></img>
       </Link>
       {console.log(user)}
-      {/* <UserCard name={user[0].fullname} role={user[0].username} /> */}
+      {<UserCard name={user[0].fullname} role={user[0].username} />}
       <List>
         {navList.map(nav => (
           <ListItem 
@@ -129,7 +130,7 @@ function NavBar() {
       </List>
 
       <Box className={classes.loginButArea}>
-        {isLogon ? (
+        {isLogin ? (
           <Button variant="outlined" color="primary" style={{fontWeight: 600}} onClick={handleLogoutClick}>Logout</Button>
         ) : (
           <>

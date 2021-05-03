@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser, saveToken } from '../store/user/user';
 import "../css/Login.css";
-import axios from 'axios';
+
 const Login = () => {
 
     const URL = "http://localhost:8000/api/user/login";
@@ -21,33 +21,6 @@ const Login = () => {
     
     const loginClick = async (e) => {
         e.preventDefault();
-        // let result = await fetch(("http://localhost:8000/api/user/login"), {
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     method: "POST",
-        //     body: JSON.stringify({
-        //         username: username,
-        //         password: password,
-        //     })
-        // });
-        const config = {
-            headers: {
-                "Content-Type": "application/json"
-            },
-        }
-        const body = JSON.stringify({
-            username: username,
-            password: password,
-        })
-        const result = await axios.post("http://localhost:8000/api/user/login", body, config);
-        // console.log(result.data);
-        // localStorage.setItem("jwt", result.data.token);
-
-        if(result.status === 200) {
-            alert("Log in successfully!");
-            dispatch(saveToken(result.data.token));
-            dispatch(setUser(result.data.info));
         let signInSuccessfully = false;
         await fetch((URL), {
             headers: {
@@ -76,8 +49,6 @@ const Login = () => {
             }
     ).then(data => {
         if (signInSuccessfully === true) {
-            //console.log(data.token);
-            //console.log(data.info);
             dispatch(saveToken(data.token));
             dispatch(setUser({
                 username: data.info.username,

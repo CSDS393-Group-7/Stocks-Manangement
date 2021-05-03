@@ -10,6 +10,7 @@ const useStyles = makeStyles(theme => ({
     },
     signupButton: {
         marginTop: '20px',
+        marginBottom: '20px'
     }
 }));
 
@@ -65,6 +66,9 @@ const Signup = () => {
                 </form>
 
                 <Button className={classes.signupButton} onClick={createUser} variant="outlined">Sign up</Button>
+
+                <Link to="/login"> Already have an account? Login now</Link>
+
             </div>
         </div>
     );

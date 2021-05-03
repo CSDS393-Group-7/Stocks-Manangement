@@ -4,6 +4,7 @@ import MUIDataTable from "mui-datatables";
 import { Paper, CardHeader, TextField } from '@material-ui/core';
 import "../css/StockManagement.css";
 import axios from 'axios';
+
 const StockManagement = () => {
     const columns = ["Stock Code", "Quantity purchased", "Price purchased", "Current Price","Total Return"];
 
@@ -23,13 +24,22 @@ const StockManagement = () => {
         headers: { Authorization: `Bearer ${token}` }
     };
     const [NameInput, setNameInput] = useState('');
-    const [QuantityInput, setQuantityInput] = useState(0);
-    const [PriceInput, setPriceInput] = useState(0);
-   
+    const [QuantityInput, setQuantityInput] = useState('');
+    const [PriceInput, setPriceInput] = useState('');
+
+    const digit = /\D/;
+    const spc = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
     const handleAdd = async e => {
         e.preventDefault();
         if (NameInput == '' || QuantityInput == '') {
             alert("You cannot leave required fields blank");
+        }
+        else if (digit.test(PriceInput) == true || digit.test(QuantityInput) == true) {
+            alert("You cannot have digits in quantity and price");
+        }
+        else if (spc.test(NameInput) == true || spc.test(PriceInput) == true || spc.test(QuantityInput) == true) {
+            alert("You cannot have special characters");
         }
         else {
             const result = await sendToBackend();
