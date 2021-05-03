@@ -4,19 +4,17 @@ import MUIDataTable from "mui-datatables";
 import { Paper, CardHeader, TextField } from '@material-ui/core';
 import "../css/StockManagement.css";
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const StockManagement = () => {
     const columns = ["Stock Code", "Quantity purchased", "Price purchased", "Current Price","Total Return"];
 
-    const [data, setData] = useState([
-        
-    ]);
+    const [data, setData] = useState([]);
 
     const options = {
         filterType: 'checkbox',
     };
-
-    const token = localStorage.getItem("jwt");
+    const token = useSelector(state => state.token);
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
@@ -25,7 +23,7 @@ const StockManagement = () => {
     const [PriceInput, setPriceInput] = useState('');
 
     const digit = /\D/;
-    const spc = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    const spc = /[ `!@#$%^&*()_+\-=\[\]{};'"\\|,.<>\/?~]/;
 
     const handleAdd = async e => {
         e.preventDefault();
@@ -96,6 +94,7 @@ const StockManagement = () => {
                 setData(stockList);
             }
         }
+        console.log("fetched");
         fetchData();
     }, [])
 
@@ -116,7 +115,8 @@ const StockManagement = () => {
                     return [...row];
                 }) 
             }
-        }) 
+        })
+        return () => socket.disconnect(); 
     }, [])
 
     return (
