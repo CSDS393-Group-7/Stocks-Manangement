@@ -1,21 +1,18 @@
 .stock__input {
-    display: flex;
-    padding: 5px;
-    position: fixed;
-    bottom: 0;
+    display: block !important;
+    padding: 10px;
     width: 100%;
     border-top: 1px solid lightgray;
+    margin-right: auto;
 }
 
 .stock__inputField {
     flex: 1;
     padding: 10px;
-    border: none;
     color: black !important;
 }
 
 .stock__inputButton {
-    border: none;
     margin-right: 20px;
     background-color: white;
     font-weight: bolder;

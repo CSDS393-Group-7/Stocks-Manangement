@@ -14,6 +14,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Signup = () => {
+
+    const URL = "http://localhost:8000/api/user/create" ;
     const classes = useStyles();
 
     const history = useHistory();
@@ -28,7 +30,7 @@ const Signup = () => {
         if (password != retype) {
             alert("The two passwords do not match");
         }
-        let result = await fetch(("http://localhost:8000/api/user/create"), {
+        let result = await fetch((URL), {
             headers: {
                 "Content-Type": "application/json"
             },

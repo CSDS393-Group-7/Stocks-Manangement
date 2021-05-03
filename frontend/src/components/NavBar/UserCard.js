@@ -21,7 +21,7 @@ function UserCard(props) {
 
   return (
     <div className={classes.root}>
-      <Avatar alt="Admin" src="/default-avatar.jpg" />
+      <Avatar alt="Admin" src="https://iupac.org/wp-content/uploads/2018/05/default-avatar.png" />
       <div className={classes.info}>
         <Typography variant="subtitle2">{props.name}</Typography>
         <Typography variant="body2">{props.role}</Typography>

@@ -6,11 +6,18 @@ import reportWebVitals from './reportWebVitals';
 
 import theme from './theme';
 import { ThemeProvider } from '@material-ui/styles';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import userApp from './store/user/user';
+
+const store = createStore(userApp);
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')

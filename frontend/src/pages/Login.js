@@ -1,15 +1,19 @@
 import { TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { setUser, saveToken } from '../store/user/user';
 import "../css/Login.css";
 
 const Login = () => {
+
+    const URL = "http://localhost:8000/api/user/login";
 
     const history = useHistory();
     
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
+    const dispatch = useDispatch();
     
     const registerClick = () => {
         history.push("/signup");
@@ -17,7 +21,7 @@ const Login = () => {
     
     const loginClick = async (e) => {
         e.preventDefault();
-        let result = await fetch(("http://localhost:8000/api/user/login"), {
+        let result = await fetch((URL), {
             headers: {
                 "Content-Type": "application/json"
             },
@@ -28,10 +32,10 @@ const Login = () => {
             })
         });
 
-        console.log(result);
-
         if(result.status === 200) {
             alert("Log in successfully!");
+            dispatch(saveToken(result.json()));
+            dispatch(setUser(result.info));
             history.push("/");
         }
         else if (result.status === 404) {

@@ -1,30 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { io } from "socket.io-client";
 import MUIDataTable from "mui-datatables";
-
+import { Paper, CardHeader } from '@material-ui/core';
 import "../css/StockManagement.css";
 
 const StockManagement = () => {
     const columns = ["Stock Name", "Stock Code", "Total Return", "Quantity purchased", "Price purchased", "Market Cap"];
 
     const [data, setData] = useState([
-        ["BINANCE:ETHUSDT", "AAPL", 24, 4.0, 4.0, 4.0],
+        ["BINANCE:ETHUSDT", "ETH", 24, 4.0, 4.0, 4.0],
         ["Apple", "AAPL", 24, 4.0, 4.0, 4.0],
-        ["Apple", "AAPL", 24, 4.0, 4.0, 4.0],
-        ["Apple", "AAPL", 24, 4.0, 4.0, 4.0],
+        ["Vietnam Airlines", "VNA", 45, 5.0, 6.0, 4.0],
+        ["Tesla", "TSL", 44, 6.5, 4.0, 7.0],
     ]);
 
     const options = {
         filterType: 'checkbox',
     };
 
-
-    const [input, setInput] = useState([]);
+    const [NameInput, setNameInput] = useState([]);
+    const [QuantityInput, setQuantityInput] = useState([]);
+    const [PriceInput, setPriceInput] = useState([]);
    
     const handleAdd = e => {
         e.preventDefault();
-        setData([... data, [input, "Code", 0, 0, 0, 0]]);
-        setInput('');
+        setData([... data, [NameInput, "Code", 0, QuantityInput, PriceInput, 0]]);
+        setNameInput('');
+        setQuantityInput('');
+        setPriceInput('');
         console.log(data[0][1])
     }
      
@@ -36,11 +39,12 @@ const StockManagement = () => {
                 setData(row => {
                     for(let i = 0; i < row.length; i++) {
                         if(row[i][0] === data["stock"]){
-                            row[i][4] = data["price"];
+                            row[i][5] = data["price"];
+                            // total return = marketcap * quantity - boughtPrice * quantity
+                            row[i][2] = row[i][5] * [row][i][3] - row[i][5] * row[i][3]
                             return [...row];
                         }
                     }
-                    // console.log(row)
                     return [...row];
                 }) 
             }
@@ -48,25 +52,49 @@ const StockManagement = () => {
     }, [])
 
     return (
-        <div>
-            <MUIDataTable 
-                title={"Stock Management Table"} 
-                data={data} 
-                columns={columns} 
-                options={options} 
-            />
-    
-            <form className="stock__input">
+        <>
+            <Paper>
+                <CardHeader title="Add New Stock" />
+                <form className="stock__input">
+                    <h3>Your Stock's name</h3>
                     <input
-                        value={input}
-                        onChange={e => setInput(e.target.value)}
+                        value={NameInput}
+                        onChange={e => setNameInput(e.target.value)}
                         className="stock__inputField"
-                        placeholder="Add new stock"
+                        placeholder="Stock name"
                         type='text'
                     ></input>
+
+                    <h3>Quantity bought?</h3>
+                    <input
+                        value={QuantityInput}
+                        onChange={e => setQuantityInput(e.target.value)}
+                        className="stock__inputField"
+                        placeholder="Quantity purchased"
+                        type='text'
+                    ></input>
+
+                    <h3>Price when bought?</h3>
+                    <input
+                        value={PriceInput}
+                        onChange={e => setPriceInput(e.target.value)}
+                        className="stock__inputField"
+                        placeholder="Price purchased"
+                        type='text'
+                    ></input>
+
                     <button onClick={handleAdd} type="submit" className="stock__inputButton">Add</button>
             </form>
-        </div>
+            </Paper>
+            <Paper>
+                <MUIDataTable 
+                    title={"Stock Management Table"} 
+                    data={data} 
+                    columns={columns} 
+                    options={options} 
+                />
+            </Paper>
+        </>
     );
 };
 

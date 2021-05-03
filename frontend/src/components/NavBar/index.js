@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import "../../css/Header.css";
-
 import { Link } from 'react-router-dom';
 import UserCard from './UserCard';
-
 import { Box, List, ListItem, makeStyles } from '@material-ui/core';
+
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -59,13 +59,15 @@ function NavBar() {
     },
   ];
 
+  const user = useSelector(state => state.user);
+
   return (
     <Box className={classes.root}>
       <Link to="/">
         <img className="header__logo" 
           src="https://thumbs.dreamstime.com/b/growth-chart-infographic-chart-icon-white-icon-dark-background-growth-chart-infographic-chart-icon-white-icon-dark-156695206.jpg" alt="icon"></img>
       </Link>
-      <UserCard name="Minh Hieu" role="admin" />
+      <UserCard name={user[0].fullname} role={user[0].username} />
       <List>
         {navList.map(nav => (
           <ListItem 

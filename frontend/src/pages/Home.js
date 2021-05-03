@@ -3,7 +3,7 @@ import React from 'react';
 
 import Chart from '../components/Chart';
 import News from '../components/News';
-
+import { useSelector } from 'react-redux';
 import "../css/Home.css";
 
 const useStyles = makeStyles(theme => ({
@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 const Home = () => {
   const classes = useStyles();
+  const user = useSelector(state => state.user);
 
   return (
     <>
