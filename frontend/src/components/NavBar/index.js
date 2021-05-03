@@ -62,7 +62,7 @@ function NavBar() {
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
   const history = useHistory();
-  
+
   const [activeTab, setActiveTab] = useState("Home");
 
   useEffect(() => {
@@ -124,7 +124,7 @@ function NavBar() {
     <Box className={classes.root}>
       <Link to="/">
         <img className="header__logo" 
-          src="https://media.istockphoto.com/vectors/green-recycling-logo-vector-id1097223620" alt="icon"></img>
+          src="https://seeklogo.com/images/C/closingbell-logo-DEDE313D68-seeklogo.com.gif" alt="icon"></img>
       </Link>
       {console.log(user)}
       {<UserCard name={user[0].fullname} role={user[0].username} />}
