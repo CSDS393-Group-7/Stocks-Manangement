@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
 const authenticateToken = (req, res, next) => {
-    console.log("Req for authenticate Token is "+req);
+    console.log("Req for authenticate Token is ");
     const authHeader = req.headers['authorization'];
     const jwtToken = authHeader && authHeader.split(' ')[1];    // Choose the part after BEARER
     

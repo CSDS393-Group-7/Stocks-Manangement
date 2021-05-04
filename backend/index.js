@@ -26,3 +26,4 @@ db.connect(process.env.DATABASE, (err) => {
     })
     Price.startSocket(socketServer, db)
 });
+
