@@ -5,6 +5,11 @@ import { useDispatch } from 'react-redux';
 import { setUser, saveToken } from '../store/user/user';
 import "../css/Login.css";
 
+import { BeatLoader, PulseLoader } from 'react-spinners';
+
+import ErrorAlert from '../components/Alert/ErrorAlert';
+import SuccessAlert from '../components/Alert/SuccessAlert';
+
 const Login = () => {
 
     const URL = "http://localhost:8000/api/user/login";
@@ -13,6 +18,15 @@ const Login = () => {
     
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
+    const[error, setError] = useState({
+        open: false,
+        message: ''
+    });
+    const[success, setSuccess] = useState({
+        open: false,
+        message: ''
+    });
+
     const dispatch = useDispatch();
     
     const registerClick = () => {
@@ -33,17 +47,29 @@ const Login = () => {
             })
         }).then(result => {
                 if(result.status === 200) {
-                    alert("Log in successfully!");
+                    setSuccess({
+                        open: true,
+                        message: (<span>Log in successfully! <br /> Your page is redirected in a few second <BeatLoader size={6} margin={2} /></span>)
+                    });
                     signInSuccessfully = true;
                 }
                 else if (result.status === 404) {
-                    alert("Username does not exist!");
+                    setError({
+                        open: true,
+                        message: 'Username does not exist!'
+                    });
                 }
                 else if (result.status === 403) {
-                    alert("Your password is incorrect!");
+                    setError({
+                        open: true,
+                        message: 'Your password is incorrect!'
+                    });
                 }
                 else {
-                    alert("Error!");
+                    setError({
+                        open: true,
+                        message: 'Something weird happened!'
+                    });
                 }
                 return result.json();
             }
@@ -55,13 +81,14 @@ const Login = () => {
                 fullname: data.info.fullName,
                 email: data.info.email
             }));
-            history.push("/");
+            setTimeout(() => history.goBack(), 2000);
         }
     })};
 
     return (
         <div className="login">
-
+            <ErrorAlert open={error.open} message={error.message} onClose={() => setError(err => ({...err, open: false}))} />
+            <SuccessAlert open={success.open} message={success.message} onClose={() => setSuccess(suc => ({...suc, open: false}))} />
             <div className="login__container">
                 <h1>Login</h1>
                 <form>

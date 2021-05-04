@@ -18,7 +18,7 @@ function SuccessAlert({ message, open, onClose }) {
       anchorOrigin={{vertical: 'top', horizontal: 'center'}}
     >
       <Alert severity="success">
-        <AlertTitle>Success</AlertTitle>
+        <AlertTitle>Success &#128521;</AlertTitle>
         {message}
       </Alert>
     </Snackbar>
