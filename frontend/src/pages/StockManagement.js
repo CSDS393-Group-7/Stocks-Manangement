@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { io } from "socket.io-client";
 import MUIDataTable from "mui-datatables";
 import { Paper, CardHeader, TextField } from '@material-ui/core';
 import "../css/StockManagement.css";
@@ -7,7 +6,8 @@ import {useSelector} from "react-redux";
 import axios from 'axios';
 
 const StockManagement = () => {
-    const columns = ["Stock Code", "Quantity purchased", "Price purchased", "Current Price","Total Return"];
+    const BASE_URI = "http://localhost:8000";
+    const columns = ["Stock Code", "Quantity purchased", "Price purchased", "Current Price", "Total Return"];
 
     const [data, setData] = useState([]);
 
@@ -64,7 +64,7 @@ const StockManagement = () => {
           price: parseFloat(PriceInput)
         }
         
-        const result = await axios.post("http://localhost:8000/api/stock/addStock", data, config)
+        const result = await axios.post(BASE_URI + "/api/stock/addStock", data, config)
         return result
     }
     const json2array = (json) => {
@@ -89,22 +89,22 @@ const StockManagement = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await axios.get("http://localhost:8000/api/user/watchList", config);
-            // const price = await axios.\
+            const result = await axios.get(BASE_URI + "/api/user/watchList", config);
+            
             if(result.data) {
                 const stockList = convertDataToArray(result.data);
-                // console.log(stockList);
+                
                 setData(stockList);
             }
         };
 
         const fetchPrice = async () => {
-            const query = await axios.get("http://localhost:8000/api/user/watchList", config);
+            const query = await axios.get(BASE_URI + "/api/user/watchList", config);
             const stockList = query.data
             const listToSend = stockList.map(stock => stock.stock);
             const jsonList = {list: listToSend};
             if(listToSend.length !== 0) {
-                const result = await axios.post("http://localhost:8000/api/price/stockPrice", jsonList);
+                const result = await axios.post(BASE_URI + "/api/price/stockPrice", jsonList);
                 if(result.data) {
                     const stockList = result.data;
                     setData(data => {
@@ -118,7 +118,6 @@ const StockManagement = () => {
                 }
             }
         };
-
         fetchData()
         .then(() => setInterval(fetchPrice, 2000));
     }, [])
@@ -134,7 +133,6 @@ const StockManagement = () => {
                             value={NameInput}
                             onChange={e => setNameInput(e.target.value)}
                             className="stock__inputField"
-                            type='text'
                         ></TextField>
                     </div>
                     <div className="stock__question">
@@ -143,7 +141,6 @@ const StockManagement = () => {
                             value={QuantityInput}
                             onChange={e => setQuantityInput(e.target.value)}
                             className="stock__inputField"
-                            type='text'
                         ></TextField>
                     </div>
                     <div className="stock__question">
@@ -152,7 +149,6 @@ const StockManagement = () => {
                             value={PriceInput}
                             onChange={e => setPriceInput(e.target.value)}
                             className="stock__inputField"
-                            type='text'
                         ></TextField>
                         </div>
                     <button onClick={handleAdd} type="submit" className="stock__inputButton">Add</button>
