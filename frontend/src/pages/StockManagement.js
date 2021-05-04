@@ -86,23 +86,21 @@ const StockManagement = () => {
         return result;
     }
 
-    // useEffect(() => {
-        
-    // }, [])
-
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios.get("http://localhost:8000/api/user/watchList", config);
-            // const price = await axios.
+            // const price = await axios.\
             if(result.data) {
                 const stockList = convertDataToArray(result.data);
+                // console.log(stockList);
                 setData(stockList);
             }
         };
 
         const fetchPrice = async () => {
-            const listToSend = data.map(stock => stock[0]);
-            // console.log(listToSend, data);
+            const query = await axios.get("http://localhost:8000/api/user/watchList", config);
+            const stockList = query.data
+            const listToSend = stockList.map(stock => stock.stock);
             const jsonList = {list: listToSend};
             if(listToSend.length !== 0) {
                 const result = await axios.post("http://localhost:8000/api/price/stockPrice", jsonList);
@@ -110,7 +108,9 @@ const StockManagement = () => {
                     const stockList = result.data;
                     setData(data => {
                         for(let i = 0; i < data.length; i++) {
+                            const totalReturn = parseFloat(data[i][3]) * parseFloat(data[i][1]) - parseFloat(data[i][2]) * parseFloat(data[i][1]);
                             data[i][3] = parseFloat(stockList[data[i][0]]);
+                            data[i][4] = totalReturn;
                         }
                         return [...data];
                     });
