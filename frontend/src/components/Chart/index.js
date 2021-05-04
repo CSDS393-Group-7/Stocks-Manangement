@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect } from 'react';
+import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
@@ -9,7 +9,7 @@ am4core.useTheme(am4themes_animated);
 
 function Chart(props) {
   const chart = useRef(null);
-
+  const [dataArray, setDataArray] = useState([]);
 
   const json2array = (json) => {
     var result = [];
@@ -36,22 +36,37 @@ function Chart(props) {
       console.log(a);
     });
   };
-
-  const dataArray = fetch("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=N8PG9YE7WSOMS626")
-  .then((response) => response.json())
-  .then((data) => {
-    
-    return data["Time Series (Daily)"];
-  });
-
+  useEffect(() => {
+    const d = new Date();
+    const currentMonth = d.getMonth();
+    fetch("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=N8PG9YE7WSOMS626")
+        .then((response) => response.json())
+        .then((data) => {
+          const dataFetch = Object.entries(data["Time Series (Daily)"]);
+          setDataArray(data => {
+            data = [];
+            for(let i = 0; i < 30; i++) {
+              const day = dataFetch[i][0];
+              const value = dataFetch[i][1];
+              const element = {date: makeDateObject(day), value: value["4. close"]}
+              data.push(element);
+            }
+            return [...data];
+          })
+      });
+  }, [])
+  
+  const makeDateObject = (string) => {
+    const dateArray = string.split('-');
+    return new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(dateArray[2]));
+  }
 
   useLayoutEffect(() => {
     let x = am4core.create("chartdiv", am4charts.XYChart);
     x.paddingRight = 20;
-    
-    const data = convertDataToArray(dataArray);
-    let dataPrice = data["2020-12-08"];
-    console.log(dataPrice)
+    // // const data = convertDataToArray(dataArray);
+    // let dataPrice = data["2020-12-08"];
+    // console.log(dataPrice)
 
 
     let old_data = [
@@ -68,7 +83,7 @@ function Chart(props) {
       {date: new Date(2020, 11, 1), value: 12},
       {date: new Date(2020, 12, 1), value: 17},
     ];
-    x.data = data;
+    x.data = dataArray;
 
     let dateAxis = x.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.grid.template.location = 0;
@@ -92,10 +107,12 @@ function Chart(props) {
     return () => {
       x.dispose();
     };
-  }, []);
+  }, [dataArray]);
 
   return (
-    <div id="chartdiv" style={{ height: "450px" }}></div>
+    <div id="chartdiv" style={{ height: "450px" }}>
+      {console.log(dataArray)}
+    </div>
   ); 
 }
 
