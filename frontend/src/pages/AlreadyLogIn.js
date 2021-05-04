@@ -1,13 +1,12 @@
 import React from 'react';
 import { Result } from 'antd';
 
-export default function Page403() {
+export default function AlreadyLoggedIn() {
     return (
     <Result
         className="app-result-page"
-        status="403"
-        title="403"
-        subTitle="You must log in first!"
+        status="500"
+        title="You already logged in!"
     />
     )
 }

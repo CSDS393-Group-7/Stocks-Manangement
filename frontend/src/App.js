@@ -9,6 +9,7 @@ import { Box, makeStyles } from '@material-ui/core';
 import NavBar from './components/NavBar';
 import { useDispatch, useSelector } from 'react-redux';
 import Page403 from './pages/Page403';
+import AlreadyLoggedIn from './pages/AlreadyLogIn';
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -29,10 +30,10 @@ function App() {
           <Box className={classes.content}>
             <Switch>
               <Route path="/login">
-                <Login></Login>
+                {token === null ? <Login></Login> : <AlreadyLoggedIn></AlreadyLoggedIn>}
               </Route>
               <Route path="/signup">
-                <Signup></Signup>
+                {token === null ? <Signup></Signup> : <AlreadyLoggedIn></AlreadyLoggedIn>} 
               </Route>
               <Route path="/stockmanagement">
                 {token !== null ? <StockManagement></StockManagement> : <Page403></Page403>}
