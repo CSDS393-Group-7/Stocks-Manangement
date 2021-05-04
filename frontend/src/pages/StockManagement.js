@@ -3,38 +3,103 @@ import { io } from "socket.io-client";
 import MUIDataTable from "mui-datatables";
 import { Paper, CardHeader, TextField } from '@material-ui/core';
 import "../css/StockManagement.css";
+import {useSelector} from "react-redux";
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const StockManagement = () => {
-    const columns = ["Stock Name", "Stock Code", "Total Return", "Quantity purchased", "Price purchased", "Current price"];
+    const columns = ["Stock Code", "Quantity purchased", "Price purchased", "Current Price","Total Return"];
 
-    const [data, setData] = useState([
-        ["BINANCE:ETHUSDT", "ETH", 24, 4.0, 4.0, 4.0],
-        ["Apple", "AAPL", 24, 4.0, 4.0, 4.0],
-        ["Vietnam Airlines", "VNA", 45, 5.0, 6.0, 4.0],
-        ["Tesla", "TSL", 44, 6.5, 4.0, 7.0],
-    ]);
+    const [data, setData] = useState([]);
 
     const options = {
         filterType: 'checkbox',
     };
 
+    const token = useSelector(state => state.token);
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
     const [NameInput, setNameInput] = useState('');
     const [QuantityInput, setQuantityInput] = useState('');
     const [PriceInput, setPriceInput] = useState('');
-   
-    const handleAdd = e => {
+
+    const digit = /\D/;
+    const spc = /[ `!@#$%^&*()_+\-=\[\]{};'"\\|,.<>\/?~]/;
+
+    const handleAdd = async e => {
         e.preventDefault();
         if (NameInput == '' || QuantityInput == '') {
             alert("You cannot leave required fields blank");
         }
+        else if (digit.test(PriceInput) == true || digit.test(QuantityInput) == true) {
+            alert("You cannot have digits in quantity and price");
+        }
+        else if (spc.test(NameInput) == true || spc.test(PriceInput) == true || spc.test(QuantityInput) == true) {
+            alert("You cannot have special characters");
+        }
         else {
-            setData([... data, [NameInput, "Code", 0, QuantityInput, PriceInput, 0]]);
+            const result = await sendToBackend();
+            console.log(result.data)
+            setData(data => {
+                const newInput = result.data;
+                for(let i = 0; i < data.length; i++) {
+                    const stockName = data[i][0];
+                    if(stockName === newInput["stock"]) {
+                        data[i] = json2array(newInput);
+                        return data;
+                    }
+                }
+                return [... data, [NameInput, QuantityInput, PriceInput, 0, 0]];
+            });
             setNameInput('');
             setQuantityInput('');
             setPriceInput('');
         }
     }
-     
+    
+    const sendToBackend = async () => {
+        const data = {
+          stock: NameInput,
+          quantity: parseFloat(QuantityInput),
+          price: parseFloat(PriceInput)
+        }
+        
+        const result = await axios.post("http://localhost:8000/api/stock/addStock", data, config)
+        return result
+    }
+    const json2array = (json) => {
+        var result = [];
+        var keys = Object.keys(json);
+        keys.forEach(function(key){
+            result.push(json[key]);
+        });
+        result.push(0);
+        result.push(0);
+        return result;
+    }
+
+    const convertDataToArray = (data) => {
+        let result = [];
+        for(let i = 0; i < data.length; i++) {
+            const stock = json2array(data[i]);
+            result.push(stock);
+        }
+        return result;
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios.get("http://localhost:8000/api/user/watchList", config);
+            if(result.data) {
+                const stockList = convertDataToArray(result.data);
+                setData(stockList);
+            }
+        }
+        console.log("fetched");
+        fetchData();
+    }, [])
+
     useEffect(() => {
         const socket = io('localhost:3080');
         socket.on("change-type", (event) => {
@@ -43,16 +108,17 @@ const StockManagement = () => {
                 setData(row => {
                     for(let i = 0; i < row.length; i++) {
                         if(row[i][0] === data["stock"]){
-                            row[i][5] = data["price"];
+                            row[i][3] = data["price"];
                             // total return = currentPrice * quantity - boughtPrice * quantity
-                            row[i][2] = row[i][5] * [row][i][3] - row[i][5] * row[i][3]
+                            // row[i][2] = row[i][3] * [row][i][1] - row[i][2] * row[i][1]
                             return [...row];
                         }
                     }
                     return [...row];
                 }) 
             }
-        }) 
+        })
+        return () => socket.disconnect(); 
     }, [])
 
     return (

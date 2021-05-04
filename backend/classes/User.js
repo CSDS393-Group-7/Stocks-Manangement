@@ -38,27 +38,58 @@ class User {
         return (await db.collection(process.env.USER_COLLECTION).findOne({ username: this.username})).watchlist;
     }
 
-    async existedStock(stock) {
+    async getQuery(stock) {
         return await db.collection(process.env.USER_COLLECTION).findOne({ 
             username: this.username, 
             "watchlist.stock" : stock
         });
     }
+
+    getCurrentStockInfo(query, target) {
+        const stockList = query.watchlist;
+        for(let i = 0; i < stockList.length; i++) {
+            const name = stockList[i].stock;
+            if(name == target) {
+                return stockList[i];
+            }
+        }
+        return null;
+    }
+
     async insertNewStockToWatchList(data) {
-        const existed = !!await this.existedStock(data.stock);
-        const newQuantity = parseInt(data.quantity);
+        const stockName = data.stock;
+        const existed = !!await this.getQuery(stockName);
         if(existed) {
-           return await db.collection(process.env.USER_COLLECTION).updateOne(
-               { username: this.username, "watchlist.stock" : data.stock},
-               {"$inc": {"watchlist.$.quantity" : newQuantity}}
-           ); 
+            console.log(existed)
+            const query = await this.getQuery(stockName);
+            
+            const current = this.getCurrentStockInfo(query, stockName);
+            
+            const newQuantity = parseFloat(data.quantity);
+            const newPrice = parseFloat(data.price);
+            
+            const currentTotal = parseFloat(current.price) * parseFloat(current.quantity);
+            const newTotal = newQuantity * newPrice;
+            
+            const newAverage = (currentTotal + newTotal) / (current.quantity + newQuantity);
+            const result =  await db.collection(process.env.USER_COLLECTION).findOneAndUpdate(
+               { username: this.username, "watchlist.stock" : stockName},
+               {"$inc": {"watchlist.$.quantity" : newQuantity}, 
+               "$set": {"watchlist.$.price": newAverage}},
+               {returnOriginal: false}
+            );
+            
+            return this.getCurrentStockInfo(result.value, stockName)
         }
+        
         else {
-            return (await db.collection(process.env.USER_COLLECTION).updateOne(
+            const result = await db.collection(process.env.USER_COLLECTION).findOneAndUpdate(
                 { username: this.username},
-                { $push: { watchlist: data}}
-            ));
+                { $push: { watchlist: data}},
+            )
+            return data;
         }
+        
     }
 };
 
