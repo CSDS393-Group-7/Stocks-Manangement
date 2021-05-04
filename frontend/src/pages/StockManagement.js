@@ -155,14 +155,13 @@ const StockManagement = () => {
                     <button onClick={handleAdd} type="submit" className="stock__inputButton">Add</button>
             </form>
             </Paper>
-            <Paper className="stock__table">
-                <MUIDataTable 
+            <MUIDataTable 
+                    className="stock__table"
                     title={"Stock Management Table"} 
                     data={data} 
                     columns={columns} 
                     options={options} 
-                />
-            </Paper>
+            />
         </>
     );
 };
