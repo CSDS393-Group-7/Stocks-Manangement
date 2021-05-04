@@ -5,7 +5,6 @@ import { Paper, CardHeader, TextField } from '@material-ui/core';
 import "../css/StockManagement.css";
 import {useSelector} from "react-redux";
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 
 const StockManagement = () => {
     const columns = ["Stock Code", "Quantity purchased", "Price purchased", "Current Price","Total Return"];
@@ -24,15 +23,15 @@ const StockManagement = () => {
     const [QuantityInput, setQuantityInput] = useState('');
     const [PriceInput, setPriceInput] = useState('');
 
-    const digit = /\D/;
-    const spc = /[ `!@#$%^&*()_+\-=\[\]{};'"\\|,.<>\/?~]/;
+    const digit = /^[+-]?\d+(\.\d+)?$/;
+    const spc = /[ `!@#$%^&*()_+\-=\[\]{};'"\\|,<>\/?~]/;
 
     const handleAdd = async e => {
         e.preventDefault();
         if (NameInput == '' || QuantityInput == '') {
             alert("You cannot leave required fields blank");
         }
-        else if (digit.test(PriceInput) == true || digit.test(QuantityInput) == true) {
+        else if (digit.test(PriceInput) == false || digit.test(QuantityInput) == false) {
             alert("You cannot have digits in quantity and price");
         }
         else if (spc.test(NameInput) == true || spc.test(PriceInput) == true || spc.test(QuantityInput) == true) {
@@ -91,34 +90,37 @@ const StockManagement = () => {
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios.get("http://localhost:8000/api/user/watchList", config);
+            // const price = await axios.\
             if(result.data) {
                 const stockList = convertDataToArray(result.data);
+                // console.log(stockList);
                 setData(stockList);
             }
-        }
-        console.log("fetched");
-        fetchData();
-    }, [])
+        };
 
-    useEffect(() => {
-        const socket = io('localhost:3080');
-        socket.on("change-type", (event) => {
-            const data = event
-            if (data !== undefined) {
-                setData(row => {
-                    for(let i = 0; i < row.length; i++) {
-                        if(row[i][0] === data["stock"]){
-                            row[i][3] = data["price"];
-                            // total return = currentPrice * quantity - boughtPrice * quantity
-                            // row[i][2] = row[i][3] * [row][i][1] - row[i][2] * row[i][1]
-                            return [...row];
+        const fetchPrice = async () => {
+            const query = await axios.get("http://localhost:8000/api/user/watchList", config);
+            const stockList = query.data
+            const listToSend = stockList.map(stock => stock.stock);
+            const jsonList = {list: listToSend};
+            if(listToSend.length !== 0) {
+                const result = await axios.post("http://localhost:8000/api/price/stockPrice", jsonList);
+                if(result.data) {
+                    const stockList = result.data;
+                    setData(data => {
+                        for(let i = 0; i < data.length; i++) {
+                            const totalReturn = parseFloat(data[i][3]) * parseFloat(data[i][1]) - parseFloat(data[i][2]) * parseFloat(data[i][1]);
+                            data[i][3] = parseFloat(stockList[data[i][0]]).toFixed(3);
+                            data[i][4] = totalReturn.toFixed(3);
                         }
-                    }
-                    return [...row];
-                }) 
+                        return [...data];
+                    });
+                }
             }
-        })
-        return () => socket.disconnect(); 
+        };
+
+        fetchData()
+        .then(() => setInterval(fetchPrice, 2000));
     }, [])
 
     return (
