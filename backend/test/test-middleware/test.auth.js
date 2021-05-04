@@ -1,7 +1,7 @@
 const request = require("supertest");
 const {expect} = require('chai');
 const auth = require('../../middleware/auth')
-const rest_app = require('../server/rest_server.js')
+const rest_app = require('../../server/rest_server.js')
 
 const loginWithDefaultUser = () => {
     const API = "http://localhost:8000/api/user/login";
