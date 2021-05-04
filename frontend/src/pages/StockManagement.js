@@ -22,15 +22,15 @@ const StockManagement = () => {
     const [QuantityInput, setQuantityInput] = useState('');
     const [PriceInput, setPriceInput] = useState('');
 
-    const digit = /\D/;
-    const spc = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    const digit = /^[+-]?\d+(\.\d+)?$/;
+    const spc = /[ `!@#$%^&*()_+\-=\[\]{};'"\\|,<>\/?~]/;
 
     const handleAdd = async e => {
         e.preventDefault();
         if (NameInput == '' || QuantityInput == '') {
             alert("You cannot leave required fields blank");
         }
-        else if (digit.test(PriceInput) == true || digit.test(QuantityInput) == true) {
+        else if (digit.test(PriceInput) == false || digit.test(QuantityInput) == false) {
             alert("You cannot have digits in quantity and price");
         }
         else if (spc.test(NameInput) == true || spc.test(PriceInput) == true || spc.test(QuantityInput) == true) {
@@ -109,8 +109,8 @@ const StockManagement = () => {
                     setData(data => {
                         for(let i = 0; i < data.length; i++) {
                             const totalReturn = parseFloat(data[i][3]) * parseFloat(data[i][1]) - parseFloat(data[i][2]) * parseFloat(data[i][1]);
-                            data[i][3] = parseFloat(stockList[data[i][0]]);
-                            data[i][4] = totalReturn;
+                            data[i][3] = parseFloat(stockList[data[i][0]]).toFixed(3);
+                            data[i][4] = totalReturn.toFixed(3);
                         }
                         return [...data];
                     });
