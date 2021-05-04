@@ -1,8 +1,9 @@
 import { Paper, CardHeader, Box, makeStyles } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 
 import Chart from '../components/Chart';
 import News from '../components/News';
+import Loading from '../components/Loading';
 import { useSelector } from 'react-redux';
 import "../css/Home.css";
 
@@ -25,8 +26,14 @@ const Home = () => {
   const classes = useStyles();
   const user = useSelector(state => state.user);
 
+  const [loading, setLoading] = useState(0);
+
+  const triggerLoading = () => setLoading(value => value + 1);
+  const triggerUnloading = () => setLoading(value => value - 1); 
+
   return (
     <>
+      <Loading open={loading > 0} delayed={1700} />
       <Paper>
         <CardHeader title="General Watchlist" />
         <Chart />
@@ -37,7 +44,7 @@ const Home = () => {
         </Paper>
         <Paper>
           <CardHeader title="News" />
-          <News />
+          <News triggerLoading={triggerLoading} triggerUnloading={triggerUnloading} />
         </Paper>
       </Box>
     </>

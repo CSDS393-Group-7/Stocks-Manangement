@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function News() {
+function News({ triggerLoading, triggerUnloading }) {
   const classes = useStyles();
 
   const [searchText, setSearchText] = useState('');
@@ -32,9 +32,13 @@ function News() {
   const [newsList, setNewsList] = useState([]);
 
   useEffect(() => {
+    triggerLoading();
     fetch('http://localhost:8000/api/news/get-list', { method: 'GET' })
     .then(res => res.json())
-    .then(data => setNewsList(data));
+    .then(data => {
+      setNewsList(data);
+      triggerUnloading();
+    });
   }, []);
 
   const handleSearchKeyDown = (e) => {
