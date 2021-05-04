@@ -2,6 +2,11 @@ import { TextField, makeStyles, Button } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
+import { BeatLoader } from 'react-spinners';
+
+import ErrorAlert from '../components/Alert/ErrorAlert';
+import SuccessAlert from '../components/Alert/SuccessAlert';
+
 import "../css/Signup.css";
 
 const useStyles = makeStyles(theme => ({
@@ -25,11 +30,22 @@ const Signup = () => {
     const[email, setEmail] = useState('');
     const[password, setPassword] = useState('');
     const[retype, setRetype] = useState('');
+    const[error, setError] = useState({
+        open: false,
+        message: ''
+    });
+    const[success, setSuccess] = useState({
+        open: false,
+        message: ''
+    });
   
     async function createUser(e) {
         e.preventDefault();
         if (password != retype) {
-            alert("The two passwords do not match");
+            setError({
+                open: true,
+                message: 'The two passwords do not match'
+            });
         }
         let result = await fetch((URL), {
             headers: {
@@ -45,16 +61,24 @@ const Signup = () => {
         });
        
         if (result.status === 200) {
-            alert("Sign up successfully!");
-            history.push("/login");
+            setSuccess({
+                open: true,
+                message: (<span>Sign up successfully!<br />Your page is redirected in a few second <BeatLoader size={6} margin={2} /></span>)
+            });
+            setTimeout(() => history.goBack(), 2000);
         }
         else {
-            alert("Username already exists!");
+            setError({
+                open: true,
+                message: 'Username already exists!'
+            });
         }
     }
     
     return (
         <div className="signup">
+            <ErrorAlert open={error.open} message={error.message} onClose={() => setError(err => ({...err, open: false}))} />
+            <SuccessAlert open={success.open} message={success.message} onClose={() => setSuccess(suc => ({...suc, open: false}))} />
             <div className="signup__container">
                 <h1>Sign up</h1>
                 <form>
