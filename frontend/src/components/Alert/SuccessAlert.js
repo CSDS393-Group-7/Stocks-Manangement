@@ -11,7 +11,11 @@ import { Snackbar } from '@material-ui/core';
  */
 function SuccessAlert({ message, open, onClose }) {
   return (
-    <Snackbar open={open} onClose={onClose}>
+    <Snackbar 
+      open={open} 
+      onClose={onClose}
+      anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+    >
       <Alert severity="success">
         <AlertTitle>Success</AlertTitle>
         {message}
