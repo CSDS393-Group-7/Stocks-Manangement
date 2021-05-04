@@ -6,7 +6,7 @@ export default function AlreadyLoggedIn() {
     <Result
         className="app-result-page"
         status="500"
-        title="You already logged in!"
+        title="You already logged in! You might want to log out first."
     />
     )
 }
