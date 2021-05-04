@@ -99,7 +99,8 @@ function NavBar() {
       username: "Your username",
       fullname: "Your full name",
       email: "Your email"
-  }));
+    }));
+    localStorage.removeItem("persist:root");
   };
 
   /**

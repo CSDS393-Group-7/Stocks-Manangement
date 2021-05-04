@@ -128,7 +128,7 @@ const StockManagement = () => {
                 <CardHeader title="Add New Stock" />
                 <form className="stock__input">
                     <div className="stock__question">
-                        <h4 className="required">Name</h4>
+                        <h4 className="required name">Name</h4>
                         <TextField
                             value={NameInput}
                             onChange={e => setNameInput(e.target.value)}
@@ -136,7 +136,7 @@ const StockManagement = () => {
                         ></TextField>
                     </div>
                     <div className="stock__question">
-                        <h4 className="required">Quantity purchased</h4>
+                        <h4 className="required name">Quantity purchased</h4>
                         <TextField
                             value={QuantityInput}
                             onChange={e => setQuantityInput(e.target.value)}
@@ -144,13 +144,14 @@ const StockManagement = () => {
                         ></TextField>
                     </div>
                     <div className="stock__question">
-                        <h4>Purchased price</h4>
+                        <h4 className="name">Price purchased</h4>
                         <TextField
                             value={PriceInput}
                             onChange={e => setPriceInput(e.target.value)}
                             className="stock__inputField"
                         ></TextField>
-                        </div>
+                    </div>
+
                     <button onClick={handleAdd} type="submit" className="stock__inputButton">Add</button>
             </form>
             </Paper>

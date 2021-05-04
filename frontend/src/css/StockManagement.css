@@ -10,13 +10,24 @@
     flex: 1;
     padding: 10px;
     color: black !important;
-    margin-left: 40px im !important;
+    width: 50%;
 }
 
 .stock__inputButton {
     background-color: white;
     font-weight: bolder;
+    display: grid;
+    margin: auto;
+    margin-top: 20px;
+
+    background-color: #e7e7e7; 
     color: black;
+    border: none;
+    padding: 9px 16px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 12px;
 }
 
 .stock__question {
@@ -31,6 +42,11 @@
     color: red;
 }
 
+.name {
+    margin-right: 10px;
+}
+
 .stock__table {
     margin-top: 35px;
 }
+

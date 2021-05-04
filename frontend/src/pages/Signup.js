@@ -41,10 +41,22 @@ const Signup = () => {
   
     async function createUser(e) {
         e.preventDefault();
-        if (password != retype) {
+        if (username === '' || password === '' || retype === '' || email === '' || fullname === '') {
+            setError({
+                open: true,
+                message: 'You must fill in all the fields'
+            });
+        }
+        if (password !== retype) {
             setError({
                 open: true,
                 message: 'The two passwords do not match'
+            });
+        }
+        if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email) === false) {
+            setError({
+                open: true,
+                message: 'Invalid email address'
             });
         }
         let result = await fetch((URL), {
@@ -65,7 +77,7 @@ const Signup = () => {
                 open: true,
                 message: (<span>Sign up successfully!<br />Your page is redirected in a few second <BeatLoader size={6} margin={2} /></span>)
             });
-            setTimeout(() => history.goBack(), 2000);
+            setTimeout(() => history.push("/login"), 2000);
         }
         else {
             setError({

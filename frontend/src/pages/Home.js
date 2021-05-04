@@ -35,7 +35,7 @@ const Home = () => {
       <Loading open={loading > 0} delayed={1100} />
       <Paper>
         <CardHeader title="General Watchlist" />
-        <Chart />
+        <Chart/>
       </Paper>
       <Box className={classes.box} display="flex">
         <Paper className={classes.suggestionPaper}>
