@@ -3,8 +3,9 @@ import { io } from "socket.io-client";
 import MUIDataTable from "mui-datatables";
 import { Paper, CardHeader, TextField } from '@material-ui/core';
 import "../css/StockManagement.css";
+import {useSelector} from "react-redux";
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+
 const StockManagement = () => {
     const columns = ["Stock Code", "Quantity purchased", "Price purchased", "Current Price","Total Return"];
 
