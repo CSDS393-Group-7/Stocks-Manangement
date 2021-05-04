@@ -41,8 +41,10 @@ const theme = createMuiTheme({
     MuiCardHeader: {
       root: {
         padding: '0px',
-      }
-    }
+        paddingLeft: '14px',
+        borderLeft: '2px solid black',
+      },
+    },
   }
 });
 
