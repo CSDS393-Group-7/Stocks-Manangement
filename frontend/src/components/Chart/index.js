@@ -2,19 +2,59 @@ import React, { useRef, useLayoutEffect } from 'react';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import axios from 'axios';
+
 
 am4core.useTheme(am4themes_animated);
 
 function Chart(props) {
   const chart = useRef(null);
 
+
+  const json2array = (json) => {
+    var result = [];
+    var keys = Object.keys(json);
+    keys.forEach(function(key){
+        result.push(json[key]);
+    });
+    result.push(0);
+    result.push(0);
+    return result;
+}
+
+  const convertDataToArray = (data) => {
+    let result = [];
+    for(let i = 0; i < data.length; i++) {
+        const stock = json2array(data[i]);
+        result.push(stock);
+    }
+    return result;
+}
+
+  const printAddress = () => {
+    dataArray.then((a) => {
+      console.log(a);
+    });
+  };
+
+  const dataArray = fetch("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=N8PG9YE7WSOMS626")
+  .then((response) => response.json())
+  .then((data) => {
+    
+    return data["Time Series (Daily)"];
+  });
+
+
   useLayoutEffect(() => {
     let x = am4core.create("chartdiv", am4charts.XYChart);
-
     x.paddingRight = 20;
+    
+    const data = convertDataToArray(dataArray);
+    let dataPrice = data["2020-12-08"];
+    console.log(dataPrice)
 
 
-    let data = [
+    let old_data = [
       {date: new Date(2020, 1, 1), value: 12},
       {date: new Date(2020, 2, 1), value: 10},
       {date: new Date(2020, 3, 1), value: 20},
