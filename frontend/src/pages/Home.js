@@ -3,17 +3,17 @@ import React from 'react';
 
 import Chart from '../components/Chart';
 import News from '../components/News';
-
+import { useSelector } from 'react-redux';
 import "../css/Home.css";
 
 const useStyles = makeStyles(theme => ({
   box: {
-    marginTop: '30px',
+    marginTop: '35px',
     width: '100%',
     justifyContent: "space-between",
   },
   suggestionPaper: {
-    marginRight: '15px',
+    marginRight: '30px',
     width: 'fill-available',
   },
   newsPaper: {
@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 const Home = () => {
   const classes = useStyles();
+  const user = useSelector(state => state.user);
 
   return (
     <>

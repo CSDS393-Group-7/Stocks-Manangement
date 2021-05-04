@@ -10,10 +10,13 @@ const useStyles = makeStyles(theme => ({
     },
     signupButton: {
         marginTop: '20px',
+        marginBottom: '20px'
     }
 }));
 
 const Signup = () => {
+
+    const URL = "http://localhost:8000/api/user/create" ;
     const classes = useStyles();
 
     const history = useHistory();
@@ -28,21 +31,19 @@ const Signup = () => {
         if (password != retype) {
             alert("The two passwords do not match");
         }
-        let result = await fetch(("http://localhost:8000/api/user/create"), {
+        let result = await fetch((URL), {
             headers: {
                 "Content-Type": "application/json"
             },
             method: "POST",
             body: JSON.stringify({
                 username: username,
-                fullname: fullname,
+                fullName: fullname,
                 email: email,
                 password: password,
             })
         });
-        console.log(result);
-        console.log(result.status);
-
+       
         if (result.status === 200) {
             alert("Sign up successfully!");
             history.push("/login");
@@ -54,10 +55,6 @@ const Signup = () => {
     
     return (
         <div className="signup">
-            <Link to="/">
-                <img className="signup__logo" src="" alt="logo"/>
-            </Link>
-
             <div className="signup__container">
                 <h1>Sign up</h1>
                 <form>
@@ -69,6 +66,9 @@ const Signup = () => {
                 </form>
 
                 <Button className={classes.signupButton} onClick={createUser} variant="outlined">Sign up</Button>
+
+                <Link to="/login"> Already have an account? Login now</Link>
+
             </div>
         </div>
     );

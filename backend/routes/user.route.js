@@ -14,11 +14,15 @@ router.post('/create', async (req, res) => {
     const rawPwd = req.body.password;
 
     const user = new User(username);
+    console.log("User is "+ user.username);
 
     if ((await user.ifExists())) {
+        console.log("Code run to here");
+        console.log(username+" is already existed!");
         res.status(409).json(`${username} exists in database`);
         return;
     }
+    console.log("Code run to here 2");
 
     const salt = bcrypt.genSaltSync(10);
     console.log(salt, rawPwd);
@@ -62,4 +66,16 @@ router.post('/login', async (req, res) => {
         res.status(403).json('Password mismatched');
 });
 
+router.get('/watchlist', auth.authenticateToken, async (req, res) => {
+    const username = req.username;
+    const user = new User(username);
+    const result = await user.getWatchlist();
+    if(result) {
+        res.status = 200;
+        res.json(result);
+    }
+    else {
+        res.status(404);
+    }
+})
 module.exports = router;

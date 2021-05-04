@@ -13,6 +13,9 @@ const useStyles = makeStyles(theme => ({
   },
   info: {
     marginLeft: '16px',
+  },
+  avatar: {
+    backgroundColor: theme.palette.primary.dark
   }
 }))
 
@@ -21,7 +24,8 @@ function UserCard(props) {
 
   return (
     <div className={classes.root}>
-      <Avatar alt="Admin" src="/default-avatar.jpg" />
+      {console.log(props.name)}
+      <Avatar className={classes.avatar} alt="Admin">{props.name[0].toUpperCase()}</Avatar>
       <div className={classes.info}>
         <Typography variant="subtitle2">{props.name}</Typography>
         <Typography variant="body2">{props.role}</Typography>

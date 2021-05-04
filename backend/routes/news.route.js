@@ -19,6 +19,8 @@ router.get('/get-list', async (req, res) => {
 
 router.post('/search', async (req, res) => {
     const keywords = req.body.keywords.replace(",", " ");
+    if (keywords.trim().length === 0)
+        return res.json(await News.getNewsList());
     res.json(await News.search(keywords));
 });
 

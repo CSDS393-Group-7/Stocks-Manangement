@@ -1,15 +1,19 @@
 import { TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { setUser, saveToken } from '../store/user/user';
 import "../css/Login.css";
 
 const Login = () => {
+
+    const URL = "http://localhost:8000/api/user/login";
 
     const history = useHistory();
     
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
+    const dispatch = useDispatch();
     
     const registerClick = () => {
         history.push("/signup");
@@ -17,7 +21,8 @@ const Login = () => {
     
     const loginClick = async (e) => {
         e.preventDefault();
-        let result = await fetch(("http://localhost:8000/api/user/login"), {
+        let signInSuccessfully = false;
+        await fetch((URL), {
             headers: {
                 "Content-Type": "application/json"
             },
@@ -26,30 +31,36 @@ const Login = () => {
                 username: username,
                 password: password,
             })
-        });
-
-        console.log(result);
-
-        if(result.status === 200) {
-            alert("Log in successfully!");
+        }).then(result => {
+                if(result.status === 200) {
+                    alert("Log in successfully!");
+                    signInSuccessfully = true;
+                }
+                else if (result.status === 404) {
+                    alert("Username does not exist!");
+                }
+                else if (result.status === 403) {
+                    alert("Your password is incorrect!");
+                }
+                else {
+                    alert("Error!");
+                }
+                return result.json();
+            }
+    ).then(data => {
+        if (signInSuccessfully === true) {
+            dispatch(saveToken(data.token));
+            dispatch(setUser({
+                username: data.info.username,
+                fullname: data.info.fullName,
+                email: data.info.email
+            }));
             history.push("/");
         }
-        else if (result.status === 404) {
-            alert("Username does not exist!");
-        }
-        else if (result.status === 403) {
-            alert("Your password is incorrect!");
-        }
-        else {
-            alert("Error!")
-        }
-    }
+    })};
 
     return (
         <div className="login">
-            <Link to="/">
-                <img className="login__logo" src="" alt="logo"/>
-            </Link>
 
             <div className="login__container">
                 <h1>Login</h1>
@@ -61,7 +72,7 @@ const Login = () => {
                     <button className="login__signInButton" type="submit" onClick={loginClick}>Login</button>
                 </form>
 
-                <p> New user? Register now</p>
+                <p>New user? Register now</p>
 
                 <button onClick={registerClick} className="login__registerButton">Create account</button>
             </div>
