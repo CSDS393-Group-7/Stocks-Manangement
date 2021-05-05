@@ -10,10 +10,17 @@ am4core.useTheme(am4themes_animated);
 function Chart(props) {
   const chart = useRef(null);
   const [dataArray, setDataArray] = useState([]);
-
+  const [current, setCurrent] = useState('');
+  const getRandomInt = (max) => {
+    return Math.floor(Math.random() * max);
+  }
 
   useEffect(() => {
-    fetch("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=N8PG9YE7WSOMS626")
+    const dataFetch = () => {
+      const stockList = ['AAPL', 'TSLA', 'FB', 'NFLX', 'GME'];
+      const randomStock = stockList[getRandomInt(5)];
+      setCurrent(randomStock);
+      fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${randomStock}&apikey=N8PG9YE7WSOMS626`)
         .then((response) => response.json())
         .then((data) => {
           const dataFetch = Object.entries(data["Time Series (Daily)"]);
@@ -28,6 +35,9 @@ function Chart(props) {
             return [...data];
           })
       });
+    }
+    dataFetch();
+    setInterval(dataFetch, 60000);
   }, [])
   
   const makeDateObject = (string) => {
@@ -65,14 +75,16 @@ function Chart(props) {
   }, [dataArray]);
 
   return (
-   
-    <div id="chartdiv" style={{ height: "450px" }}>
-       
+    <React.Fragment>
       {console.log(dataArray)}
-      <h2> IBM </h2>
-    </div>
+      <div id="chartdiv" style={{ height: "450px" }}>
+      
+      </div>
+      <div>
+        <h2> {current} </h2> 
+      </div>
+    </React.Fragment>
   ); 
 }
-
 
 export default Chart;
