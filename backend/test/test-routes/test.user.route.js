@@ -71,6 +71,11 @@ describe('/api/user/login', (done) => {
             request(rest_app)
                 .post('/api/user/login')
                 .send(userToLogin)
+                .expect(res => {
+                    res.body.token.should.be.an('string');
+                    let info = res.body.info;
+                    info.username.should.to.equal(userToLogin.username);
+                })
                 .expect(200,done);
         });
     });
@@ -83,6 +88,9 @@ describe('/api/user/login', (done) => {
             request(rest_app)
                 .post('/api/user/login')
                 .send(userWrongPassword)
+                .expect(res => {
+                    res.body.should.to.equal("Password mismatched");
+                })
                 .expect(403,done);
         });
     });
@@ -95,6 +103,9 @@ describe('/api/user/login', (done) => {
             request(rest_app)
                 .post('/api/user/login')
                 .send(userDoesntExist)
+                .expect(res => {
+                    res.body.should.to.equal(userDoesntExist.username+" is not found")
+                })
                 .expect(404,done);
         });
     });
@@ -109,6 +120,14 @@ describe('/api/user/watchList', (done) =>{
             request(rest_app)
                 .get('/api/user/watchList')
                 .set("Authorization", "BEARER eyJhbGciOiJIUzI1NiJ9.dGVzdGluZ190cnVuZ18y.OckHqtlgjEZv4id-lywgI5l0PW0oRhNZMW8yQ4sHsdM")
+                .expect(res => {
+                    let arr = res.body;
+                    arr.forEach(e =>{
+                        e.should.have.property("stock").an("string");
+                        e.should.have.property("quantity").an("number");
+                        e.should.have.property("price").an("number");
+                    })
+                })
                 .expect(200,done);
         });
     });
