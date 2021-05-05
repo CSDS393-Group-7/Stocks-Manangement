@@ -46,6 +46,15 @@ describe("test for existed user", () =>{
             expect(result).to.be.a('string');
         })
     })
+    it("getWatchlist() should return an array", () => {
+        db.connect(process.env.DATABASE, async (err) => {
+            if (err)
+                throw err;
+            
+            const result = existedUser.getEmail();
+            expect(Array.isArray(result)).to.be.ok;
+        })
+    })
 })
 describe("test for existed user", () =>{
     it("ifExists() should return false", () => {
