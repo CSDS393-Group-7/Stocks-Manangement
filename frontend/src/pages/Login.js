@@ -81,7 +81,7 @@ const Login = () => {
                 fullname: data.info.fullName,
                 email: data.info.email
             }));
-            setTimeout(() => history.push("/home"), 2000);
+            setTimeout(() => history.push("/"), 2000);
         }
     })};
 

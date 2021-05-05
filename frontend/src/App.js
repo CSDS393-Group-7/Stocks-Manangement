@@ -30,7 +30,7 @@ function App() {
           <Box className={classes.content}>
             <Switch>
               <Route path="/login">
-                {token === null ? <Login></Login> : <AlreadyLoggedIn></AlreadyLoggedIn>}
+                {<Login></Login>}
               </Route>
               <Route path="/signup">
                 {token === null ? <Signup></Signup> : <AlreadyLoggedIn></AlreadyLoggedIn>} 
