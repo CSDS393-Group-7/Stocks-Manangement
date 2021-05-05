@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Chart from '../components/Chart';
 import News from '../components/News';
 import Loading from '../components/Loading';
+import SuggestionTable from '../components/Suggestion';
 import { useSelector } from 'react-redux';
 import "../css/Home.css";
 
@@ -41,6 +42,7 @@ const Home = () => {
       <Box className={classes.box} display="flex">
         <Paper className={classes.suggestionPaper}>
           <CardHeader title="Suggestion Table" />
+          <SuggestionTable />
         </Paper>
         <Paper>
           <CardHeader title="News" />
