@@ -55,6 +55,7 @@ class News {
 
     static async getNewsList() {
         const limit = Number(process.env.NEWS_LIMIT);
+        console.log("Limit "+limit);
         return await db.collection('news').find()
             .sort({publicationDate: -1})
             .limit(limit)

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./bin/www",
-    "test": "mocha 'test/test-routes/test.user.route.js' --timeout 100000"
+    "test": "mocha 'test/test-routes' 'test/testClasses'--timeout 10000"
   },
   "author": "",
   "license": "ISC",

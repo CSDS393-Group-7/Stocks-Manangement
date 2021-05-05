@@ -1,7 +1,7 @@
 const request = require("supertest");
 const rest_app = require('../../server/rest_server.js');
 const chai = require("chai");
-const should = chai.should(); 
+const should = chai.should();
 const db = require('../../database');
 
 require('dotenv').config();
@@ -24,26 +24,29 @@ const userToLogin = {
 const userWrongPassword = {
     "username":"testing_tung",
     "password":"123456"
-}
+};
 const userDoesntExist = {
     "username":"loc",
     "password":"123456"
-}
+};
 
-describe("Test User Create Route", (done) => {
+describe('/api/user/create', (done) => {
     it("Return 409- user already existed",  (done) => {
         db.connect(process.env.DATABASE, (err) => {
             if (err)
                 throw err;
 
             request(rest_app)
-            .post('/api/user/create')
-            .send(userExisted)
-            .expect(409,done);
+                .post('/api/user/create')
+                .send(userExisted)
+                .expect( res =>{
+                    res.body.should.equals(userExisted.username+" exists in database")
+                })
+                .expect(409,done);
         });
     });
 
-    it('Return 200- user created', function (done) {
+    it('Return 200- sucessfully registered', function (done) {
         db.connect(process.env.DATABASE, (err) => {
             if (err)
                 throw err;
@@ -51,16 +54,20 @@ describe("Test User Create Route", (done) => {
             request(rest_app)
                 .post('/api/user/create')
                 .send(newUser)
+                .expect(res =>{
+                    res.body.should.be.an("string")
+                })
                 .expect(200, done);
         });
     });
 });
 
-describe("Test User Login Route", (done) => {
+describe('/api/user/login', (done) => {
     it("Return 200 - Successfully Login",  (done) => {
         db.connect(process.env.DATABASE, (err) => {
             if (err)
                 throw err;
+
             request(rest_app)
                 .post('/api/user/login')
                 .send(userToLogin)
@@ -68,10 +75,11 @@ describe("Test User Login Route", (done) => {
         });
     });
 
-    it("Return 403 - Wrong Password But User Exist",  (done) => {
+    it("Return 403 - Wrong Password",  (done) => {
         db.connect(process.env.DATABASE, (err) => {
             if (err)
                 throw err;
+
             request(rest_app)
                 .post('/api/user/login')
                 .send(userWrongPassword)
@@ -79,7 +87,7 @@ describe("Test User Login Route", (done) => {
         });
     });
 
-    it("Return 404 - User doesn't exist",  (done) => {
+    it("Return 404- User does not exist",  (done) => {
         db.connect(process.env.DATABASE, (err) => {
             if (err)
                 throw err;
@@ -92,8 +100,8 @@ describe("Test User Login Route", (done) => {
     });
 });
 
-describe("Test Get Watch List Route", (done) =>{
-    it('Return 200 - Successfully Get The Watch List and Authorized Token', function () {
+describe('/api/user/watchList', (done) =>{
+    it('Return 200 - Successfully Get The Watch List and Authorized Token', function (done) {
         db.connect(process.env.DATABASE, (err) => {
             if (err)
                 throw err;
