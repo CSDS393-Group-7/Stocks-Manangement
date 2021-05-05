@@ -125,7 +125,7 @@ function NavBar() {
     <Box className={classes.root}>
       <Link to="/">
         <img className="header__logo" 
-          src="https://seeklogo.com/images/C/closingbell-logo-DEDE313D68-seeklogo.com.gif" alt="icon"></img>
+          src="logo.png" alt="icon"></img>
       </Link>
       {console.log(user)}
       {<UserCard name={user[0].fullname} role={user[0].username} />}
