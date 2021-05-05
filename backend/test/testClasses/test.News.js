@@ -10,7 +10,7 @@ const db = require('../../database');
 
 
 db
-describe('News', () => {
+describe('test News class', () => {
     describe('pullDataFromProviders', () => {
         it('should fetch more news', () => {
             db.connect(process.env.DATABASE, async function(err) {
