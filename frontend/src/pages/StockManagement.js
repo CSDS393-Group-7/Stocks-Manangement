@@ -38,14 +38,14 @@ const StockManagement = () => {
     const [PriceInput, setPriceInput] = useState('');
 
     const digit = /^[+-]?\d+(\.\d+)?$/;
-    const spc = /[ `!@#$%^&*()_+\-=\[\]{};'"\\|,<>\/?~]/;
+    const spc = /[`!@#$%^&*()_+\-=\[\]{};'"\\|,<>\/?~]/;
 
     const handleAdd = async e => {
         e.preventDefault();
         if (NameInput == '' || QuantityInput == '') {
             alert("You cannot leave required fields blank");
         }
-        else if (digit.test(PriceInput) == false || digit.test(QuantityInput) == false) {
+        else if (digit.test(QuantityInput) == false) {
             alert("You cannot have digits in quantity and price");
         }
         else if (spc.test(NameInput) == true || spc.test(PriceInput) == true || spc.test(QuantityInput) == true) {
@@ -53,8 +53,8 @@ const StockManagement = () => {
         }
         else {
             const result = await sendToBackend();
-            console.log(result.data)
-            setData(data => {
+            const currentPrice = await getCurrentStockPrice();
+            setData((data) => {
                 const newInput = result.data;
                 for(let i = 0; i < data.length; i++) {
                     const stockName = data[i][0];
@@ -63,7 +63,12 @@ const StockManagement = () => {
                         return data;
                     }
                 }
-                return [... data, [NameInput, QuantityInput, PriceInput, 0, 0]];
+                if(PriceInput) {
+                    return [... data, [NameInput, QuantityInput, PriceInput, 0, 0]];
+                }
+                else {
+                    return [... data, [NameInput, QuantityInput, currentPrice, 0, 0]];
+                }
             });
             setNameInput('');
             setQuantityInput('');
@@ -71,15 +76,34 @@ const StockManagement = () => {
         }
     }
     
+    const getCurrentStockPrice = async (code) => {
+        const data = await axios.post(BASE_URI + "/api/price/specificStockPrice", {stock: code});
+        return data.data["price"];
+    }
+
     const sendToBackend = async () => {
-        const data = {
-          stock: NameInput,
-          quantity: parseFloat(QuantityInput),
-          price: parseFloat(PriceInput)
+        if(PriceInput) {
+            const data = {
+                stock: NameInput,
+                quantity: parseFloat(QuantityInput),
+                price: parseFloat(PriceInput)
+            };
+              
+            const result = await axios.post(BASE_URI + "/api/stock/addStock", data, config);
+            return result;
         }
-        
-        const result = await axios.post(BASE_URI + "/api/stock/addStock", data, config)
-        return result
+        else {
+            const currentPrice = await getCurrentStockPrice(NameInput)
+            const data = {
+                stock: NameInput,
+                quantity: parseFloat(QuantityInput),
+                price: currentPrice
+            };
+              
+            const result = await axios.post(BASE_URI + "/api/stock/addStock", data, config);
+            // setPriceInput(currentPrice);
+            return result;
+        }
     }
     const json2array = (json) => {
         var result = [];
@@ -119,7 +143,6 @@ const StockManagement = () => {
             
             if(result.data) {
                 const stockList = convertDataToArray(result.data);
-                
                 setData(stockList);
             }
         };
