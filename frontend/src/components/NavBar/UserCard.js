@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: '16px',
   },
   avatar: {
-    backgroundColor: theme.palette.primary.dark
+    backgroundColor: '#007b55d9',
   }
 }))
 
