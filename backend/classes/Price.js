@@ -42,6 +42,11 @@ class Price {
         }
         return result;
     }
+
+    static async getSpecificStockPrice(code) {
+        const price = await db.collection("Price").findOne({stock: code});
+        return price["price"];
+    }
 }
 
 module.exports = Price

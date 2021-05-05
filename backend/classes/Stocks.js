@@ -18,6 +18,12 @@ class Stocks {
             {'$limit': 20}]).toArray();
         return data;
     }
+
+    static async getStockName(code) {
+        const data = await db.collection(process.env.STOCK_INFO).findOne({'symbol':code})
+        const name = data["name"];
+        return name;
+    }
 }
 
 module.exports = Stocks;
