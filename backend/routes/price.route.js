@@ -11,6 +11,14 @@ router.post("/stockPrice", async (req, res) => {
     const result = await Price.getStockPrice(stockList);
     res.status = 200;
     res.json(result);
-})
+});
 
+router.post("/specificStockPrice", async (req, res) => {
+    const code = req.body["stock"];
+    const price = await Price.getSpecificStockPrice(code);
+    res.status = 200;
+    res.json({
+        price: price
+    });
+});
 module.exports = router;
