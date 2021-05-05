@@ -53,6 +53,12 @@ const Login = () => {
                     });
                     signInSuccessfully = true;
                 }
+                else if (username === '' || password === '') {
+                    setError({
+                        open: true,
+                        message: 'You must fill in all the fields'
+                    });
+                }
                 else if (result.status === 404) {
                     setError({
                         open: true,

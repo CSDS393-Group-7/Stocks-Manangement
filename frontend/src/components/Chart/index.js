@@ -11,19 +11,24 @@ function Chart(props) {
   const chart = useRef(null);
   const [dataArray, setDataArray] = useState([]);
   const [current, setCurrent] = useState('');
+  const [stockName, setStockName] = useState('');
   const getRandomInt = (max) => {
     return Math.floor(Math.random() * max);
   }
-
+  const BASE_URI = "http://localhost:8000";
   useEffect(() => {
-    const dataFetch = () => {
+    const dataFetch = async () => {
       const stockList = ['AAPL', 'TSLA', 'FB', 'NFLX', 'GME'];
       const randomStock = stockList[getRandomInt(5)];
       setCurrent(randomStock);
-      fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${randomStock}&apikey=N8PG9YE7WSOMS626`)
+      const reqData = {"stock": randomStock};
+      const name = await axios.post(BASE_URI + "/api/stock/stockName", reqData);
+      setStockName(name.data.name);
+      await fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${randomStock}&apikey=N8PG9YE7WSOMS626`)
         .then((response) => response.json())
         .then((data) => {
-          const dataFetch = Object.entries(data["Time Series (Daily)"]);
+          if(data) {
+            const dataFetch = Object.entries(data["Time Series (Daily)"]);
           setDataArray(data => {
             data = [];
             for(let i = 0; i < 30; i++) {
@@ -34,13 +39,12 @@ function Chart(props) {
             }
             return [...data];
           })
+          }
       });
     }
     dataFetch();
     const interval = setInterval(dataFetch, 60000);
-    return () => {
-      clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   }, [])
   
   const makeDateObject = (string) => {
@@ -84,7 +88,7 @@ function Chart(props) {
       
       </div>
       <div>
-        <h2> {current} </h2> 
+        <h2> {`${current}: ${stockName}`} </h2> 
       </div>
     </React.Fragment>
   ); 
