@@ -14,20 +14,15 @@ const Suggestion = () => {
         return {name, symbol, price, volume};
     };
     const [dataArray, setDataArray] = useState([]);
-  
-
-
 
     var names = [];
 
-  
     //to retrieve 20 top mentioned stocks
     useEffect(() => {
         fetch("http://localhost:8000/api/stock/topMentionedStocksSub")
         .then((response) => response.json())
         .then((data) => {
             const dataFetch = Object.entries(data);
-    
             for(let i = 0; i < 20; i++) {
                 const stockInfo = dataFetch[i][1];
                 const name = stockInfo["_id"];      
@@ -37,40 +32,31 @@ const Suggestion = () => {
     }, []);        
                 
 
-
     const [rows, setRows] = useState([
         createData("Apple", "AAPL", 132.54, 132893955),
-        createData("Tesla", "TSL", 684.90, 28633353),
+        createData("Tesla", "TSLA", 684.90, 28633353),
         createData("Netflix", "NFLX", 509.11, 4254237),
         createData("Facebook", "FB", 322.58, 10069560),
         createData("GameStop", "GME", 162.20, 3973105),
     ]);
 
-
-
-      
     useEffect(() => {
-        const socket = io('localhost:3001');
-        socket.on("change-type", (event) => {
-            const data = event
-            if (data !== undefined) {
-                setRows(rows => {
-                    for(let i = 0; i < rows.length; i++) {
-                        if(rows[i].name === data["stock"]) {
-                            rows[i].price = data["price"];
-                            rows[i].volume = data["volume"];
-
-                            return [...rows]
-                        }
+        const fetchPrice = async () => {
+            const jsonList = {list: ['AAPL', 'TSLA', 'FB', 'NFLX', 'GME']};
+            const result = await axios.post("http://localhost:8000/api/price/stockPrice", jsonList);
+            if(result.data) {
+                const stockList = result.data;
+                // console.log(stockList["AAPL"])
+                setRows(data => {
+                    for(let i = 0; i < data.length; i++) {
+                        data[i]["price"] = parseFloat(stockList[data[i]["symbol"]]).toFixed(3);
                     }
-                    return [...rows]
-                })
+                    return [...data];
+                });
             }
-        })
-        
+        };
+        setInterval(fetchPrice, 2000);
     }, [])
-
-
 
     return (
         <div>

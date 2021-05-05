@@ -2,7 +2,7 @@ import websocket
 import json
 import pymongo
 
-stocks = ["AAPL", "AMZN","TSLA","MSFT", "BINANCE:BTCUSDT","BINANCE:ETHUSDT", "BINANCE:RVNUSDT", "BINANCE:ETCUSDT"]
+stocks = ["AAPL", "FB", "GME", "NFLX", "AMZN","TSLA","MSFT", "BINANCE:BTCUSDT","BINANCE:ETHUSDT", "BINANCE:RVNUSDT", "BINANCE:ETCUSDT"]
 myclient = pymongo.MongoClient("mongodb+srv://hieu:Hieu1234@cluster0.uuizv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 mydb = myclient["CSDS393"]
 mycol = mydb['Price']

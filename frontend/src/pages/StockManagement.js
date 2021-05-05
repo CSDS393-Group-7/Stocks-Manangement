@@ -71,7 +71,19 @@ const StockManagement = () => {
         var result = [];
         var keys = Object.keys(json);
         keys.forEach(function(key){
-            result.push(json[key]);
+            if(parseFloat(json[key])) {
+                if(parseFloat(json[key]) % 1 == 0) {
+                    const twoDecimal = parseFloat(json[key]).toFixed(2);
+                    result.push(twoDecimal);
+                }
+                else {
+                    const threeDecimal = parseFloat(json[key]).toFixed(3);
+                    result.push(threeDecimal);
+                }
+            }
+            else {
+                result.push(json[key]);
+            }
         });
         result.push(0);
         result.push(0);
