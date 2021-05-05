@@ -53,7 +53,7 @@ const StockManagement = () => {
         }
         else {
             const result = await sendToBackend();
-            const currentPrice = await getCurrentStockPrice();
+            // const currentPrice = await getCurrentStockPrice();
             setData((data) => {
                 const newInput = result.data;
                 for(let i = 0; i < data.length; i++) {
@@ -63,12 +63,12 @@ const StockManagement = () => {
                         return data;
                     }
                 }
-                if(PriceInput) {
+                // if(PriceInput) {
                     return [... data, [NameInput, QuantityInput, PriceInput, 0, 0]];
-                }
-                else {
-                    return [... data, [NameInput, QuantityInput, currentPrice, 0, 0]];
-                }
+                // }
+                // else {
+                //     return [... data, [NameInput, QuantityInput, currentPrice, 0, 0]];
+                // }
             });
             setNameInput('');
             setQuantityInput('');

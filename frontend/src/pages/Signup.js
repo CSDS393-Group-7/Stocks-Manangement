@@ -46,18 +46,21 @@ const Signup = () => {
                 open: true,
                 message: 'You must fill in all the fields'
             });
+            return;
         }
         if (password !== retype) {
             setError({
                 open: true,
                 message: 'The two passwords do not match'
             });
+            return;
         }
         if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email) === false) {
             setError({
                 open: true,
                 message: 'Invalid email address'
             });
+            return;
         }
         let result = await fetch((URL), {
             headers: {
