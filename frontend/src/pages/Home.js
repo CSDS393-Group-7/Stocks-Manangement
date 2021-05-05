@@ -33,7 +33,7 @@ const Home = () => {
 
   return (
     <>
-      <Loading open={loading > 0} delayed={1100} />
+      <Loading open={loading > 0} delayed={1500} />
       <Paper>
         <CardHeader title="General Watchlist" />
         <Chart/>
