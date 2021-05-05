@@ -73,5 +73,6 @@ router.get('/watchlist', auth.authenticateToken, async (req, res) => {
     else {
         res.status(404);
     }
-})
+});
+
 module.exports = router;

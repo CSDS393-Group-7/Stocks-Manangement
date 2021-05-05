@@ -21,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function News({ triggerLoading, triggerUnloading }) {
+  const BASE_URI = 'http://localhost:8000';
+
   const classes = useStyles();
 
   const [searchText, setSearchText] = useState('');
@@ -33,7 +35,7 @@ function News({ triggerLoading, triggerUnloading }) {
 
   useEffect(() => {
     triggerLoading();
-    fetch('http://localhost:8000/api/news/get-list', { method: 'GET' })
+    fetch(BASE_URI + '/api/news/get-list', { method: 'GET' })
     .then(res => res.json())
     .then(data => {
       setNewsList(data);
@@ -44,7 +46,7 @@ function News({ triggerLoading, triggerUnloading }) {
   const handleSearchKeyDown = (e) => {
     if (e.keyCode !== 13)
       return;
-    fetch('http://localhost:8000/api/news/search', {
+    fetch(BASE_URI + '/api/news/search', {
       headers: {
           "Content-Type": "application/json"
       },

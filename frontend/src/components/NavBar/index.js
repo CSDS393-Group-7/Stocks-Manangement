@@ -19,11 +19,11 @@ const useStyles = makeStyles(theme => ({
     position: 'sticky',
   },
   navItem: {
-    paddingLeft: '40px',
+    paddingLeft: '35px',
     height: '45px',
   },
   navItemActive: {
-    paddingLeft: '40px',
+    paddingLeft: '35px',
     height: '45px',
     backgroundColor: 'rgba(0, 171, 85, 0.08)',
     color: theme.palette.primary.main,
@@ -99,7 +99,8 @@ function NavBar() {
       username: "Your username",
       fullname: "Your full name",
       email: "Your email"
-  }));
+    }));
+    localStorage.removeItem("persist:root");
   };
 
   /**

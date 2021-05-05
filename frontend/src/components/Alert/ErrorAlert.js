@@ -1,6 +1,7 @@
 import React from 'react';
 import Alert from '@material-ui/lab/Alert';
 import { Snackbar } from '@material-ui/core';
+import { AlertTitle } from '@material-ui/lab';
 
 /**
  * Success Alert
@@ -16,8 +17,8 @@ function ErrorAlert({ message, open, onClose }) {
       onClose={onClose}
       anchorOrigin={{vertical: 'top', horizontal: 'center'}}
     >
-      <Alert severity="error">
-        <AlertTitle>Error</AlertTitle>
+      <Alert severity="error" onClose={onClose}>
+        <AlertTitle>Error &#128546;</AlertTitle>
         {message}
       </Alert>
     </Snackbar>

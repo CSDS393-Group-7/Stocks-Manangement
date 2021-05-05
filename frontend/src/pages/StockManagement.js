@@ -1,13 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { io } from "socket.io-client";
 import MUIDataTable from "mui-datatables";
-import { Paper, CardHeader, TextField } from '@material-ui/core';
+import { Paper, CardHeader, TextField, Button, makeStyles, InputAdornment } from '@material-ui/core';
 import "../css/StockManagement.css";
 import {useSelector} from "react-redux";
 import axios from 'axios';
 
+const useStyles = makeStyles(theme => ({
+    addButton: {
+        display: 'grid',
+        margin: '15px auto 0px',
+    },
+    addStockTitle: {
+        ...theme.typography.h5,
+        // borderLeft: '2px solid black',
+        // paddingLeft: '10px'
+    }
+}));
+
 const StockManagement = () => {
-    const columns = ["Stock Code", "Quantity purchased", "Price purchased", "Current Price","Total Return"];
+    const classes = useStyles();
+
+    const BASE_URI = "http://localhost:8000";
+    const columns = ["Stock Code", "Quantity purchased", "Price purchased", "Current Price", "Total Return"];
 
     const [data, setData] = useState([]);
 
@@ -64,7 +78,7 @@ const StockManagement = () => {
           price: parseFloat(PriceInput)
         }
         
-        const result = await axios.post("http://localhost:8000/api/stock/addStock", data, config)
+        const result = await axios.post(BASE_URI + "/api/stock/addStock", data, config)
         return result
     }
     const json2array = (json) => {
@@ -101,22 +115,22 @@ const StockManagement = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await axios.get("http://localhost:8000/api/user/watchList", config);
-            // const price = await axios.\
+            const result = await axios.get(BASE_URI + "/api/user/watchList", config);
+            
             if(result.data) {
                 const stockList = convertDataToArray(result.data);
-                // console.log(stockList);
+                
                 setData(stockList);
             }
         };
 
         const fetchPrice = async () => {
-            const query = await axios.get("http://localhost:8000/api/user/watchList", config);
+            const query = await axios.get(BASE_URI + "/api/user/watchList", config);
             const stockList = query.data
             const listToSend = stockList.map(stock => stock.stock);
             const jsonList = {list: listToSend};
             if(listToSend.length !== 0) {
-                const result = await axios.post("http://localhost:8000/api/price/stockPrice", jsonList);
+                const result = await axios.post(BASE_URI + "/api/price/stockPrice", jsonList);
                 if(result.data) {
                     const stockList = result.data;
                     setData(data => {
@@ -130,7 +144,6 @@ const StockManagement = () => {
                 }
             }
         };
-
         fetchData()
         .then(() => setInterval(fetchPrice, 2000));
     }, [])
@@ -138,46 +151,44 @@ const StockManagement = () => {
     return (
         <>
             <Paper>
-                <CardHeader title="Add New Stock" />
+                <CardHeader title="Add New Stock" titleTypographyProps={{className: classes.addStockTitle}} />
                 <form className="stock__input">
                     <div className="stock__question">
-                        <h4 className="required">Name</h4>
+                        <h4 className="required name">Name</h4>
                         <TextField
                             value={NameInput}
-                            onChange={e => setNameInput(e.target.value)}
+                            onChange={e => setNameInput(e.target.value.toUpperCase())}
                             className="stock__inputField"
-                            type='text'
-                        ></TextField>
+                        />
                     </div>
                     <div className="stock__question">
-                        <h4 className="required">Quantity purchased</h4>
+                        <h4 className="required name">Quantity purchased</h4>
                         <TextField
                             value={QuantityInput}
                             onChange={e => setQuantityInput(e.target.value)}
                             className="stock__inputField"
-                            type='text'
-                        ></TextField>
+                        />
                     </div>
                     <div className="stock__question">
-                        <h4>Purchased price</h4>
+                        <h4 className="name">Price purchased</h4>
                         <TextField
                             value={PriceInput}
                             onChange={e => setPriceInput(e.target.value)}
+                            InputProps={{startAdornment: <InputAdornment>$</InputAdornment>}}
                             className="stock__inputField"
-                            type='text'
-                        ></TextField>
-                        </div>
-                    <button onClick={handleAdd} type="submit" className="stock__inputButton">Add</button>
+                        />
+                    </div>
+
+                    <Button className={classes.addButton} onClick={handleAdd} type="submit" variant="outlined" color="primary">Add</Button>
             </form>
             </Paper>
-            <Paper className="stock__table">
-                <MUIDataTable 
-                    title={"Stock Management Table"} 
-                    data={data} 
-                    columns={columns} 
-                    options={options} 
-                />
-            </Paper>
+            <MUIDataTable 
+                className="stock__table"
+                title={<CardHeader title="Stock Management Table" titleTypographyProps={{className: classes.addStockTitle}} />}
+                data={data} 
+                columns={columns} 
+                options={options} 
+            />
         </>
     );
 };

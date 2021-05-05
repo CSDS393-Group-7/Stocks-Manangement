@@ -14,20 +14,14 @@ const theme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: [
-      '"Be Vietnam"',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
     subtitle2: {
-      fontSize: 13,
+      fontSize: 14,
       color: 'rgb(33, 43, 54)',
       lineHeight: '1.57143',
       fontWeight: 'bold',
     },
     body2: {
+      fontSize: 13,
       color: 'rgb(99, 115, 129)',
       lineHeight: '1.57143',
     },
@@ -47,8 +41,10 @@ const theme = createMuiTheme({
     MuiCardHeader: {
       root: {
         padding: '0px',
-      }
-    }
+        paddingLeft: '14px',
+        borderLeft: '2px solid black',
+      },
+    },
   }
 });
 

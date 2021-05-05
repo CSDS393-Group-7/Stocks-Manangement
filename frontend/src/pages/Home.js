@@ -25,7 +25,6 @@ const useStyles = makeStyles(theme => ({
 
 const Home = () => {
   const classes = useStyles();
-  const user = useSelector(state => state.user);
 
   const [loading, setLoading] = useState(0);
 
@@ -34,10 +33,10 @@ const Home = () => {
 
   return (
     <>
-      <Loading open={loading > 0} delayed={1700} />
+      <Loading open={loading > 0} delayed={1100} />
       <Paper>
         <CardHeader title="General Watchlist" />
-        <Chart />
+        <Chart/>
       </Paper>
       <Box className={classes.box} display="flex">
         <Paper className={classes.suggestionPaper}>
