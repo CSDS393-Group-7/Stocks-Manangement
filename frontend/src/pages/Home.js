@@ -17,6 +17,7 @@ const useStyles = makeStyles(theme => ({
   suggestionPaper: {
     marginRight: '30px',
     width: 'fill-available',
+    height: 'fit-content',
   },
   newsPaper: {
 

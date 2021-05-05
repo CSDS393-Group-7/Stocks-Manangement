@@ -9,7 +9,20 @@ import Paper from '@material-ui/core/Paper';
 import { io } from "socket.io-client"
 import axios from 'axios';
 
+
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        boxShadow: 'none',
+        width: 'inherit',
+        paddingLeft: '0px',
+    }
+}));
+
 const Suggestion = () => {
+    const classes = useStyles();
+
     const createData = (name, symbol, price, volume) => {
         return {name, symbol, price, volume};
     };
@@ -60,7 +73,7 @@ const Suggestion = () => {
 
     return (
         <div>
-            <TableContainer component={Paper}>
+            <TableContainer className={classes.root} component={Paper}>
             <Table>
                 <TableHead>
                 <TableRow>
