@@ -6,7 +6,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     borderRadius: '12px',
     backgroundColor: 'rgba(145, 158, 171, 0.12)',
-    margin: '20px 20px 40px',
+    margin: '50px 20px 40px',
     padding: '16px 20px',
     display: 'flex',
     alignItems: 'center',
@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: '16px',
   },
   avatar: {
-    backgroundColor: theme.palette.primary.dark
+    backgroundColor: '#007b55d9',
   }
 }))
 

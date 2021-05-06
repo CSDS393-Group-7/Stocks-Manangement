@@ -19,11 +19,11 @@ const useStyles = makeStyles(theme => ({
     position: 'sticky',
   },
   navItem: {
-    paddingLeft: '40px',
+    paddingLeft: '35px',
     height: '45px',
   },
   navItemActive: {
-    paddingLeft: '40px',
+    paddingLeft: '35px',
     height: '45px',
     backgroundColor: 'rgba(0, 171, 85, 0.08)',
     color: theme.palette.primary.main,
@@ -99,7 +99,8 @@ function NavBar() {
       username: "Your username",
       fullname: "Your full name",
       email: "Your email"
-  }));
+    }));
+    localStorage.removeItem("persist:root");
   };
 
   /**
@@ -124,7 +125,7 @@ function NavBar() {
     <Box className={classes.root}>
       <Link to="/">
         <img className="header__logo" 
-          src="https://seeklogo.com/images/C/closingbell-logo-DEDE313D68-seeklogo.com.gif" alt="icon"></img>
+          src="logo.png" alt="icon"></img>
       </Link>
       {console.log(user)}
       {<UserCard name={user[0].fullname} role={user[0].username} />}

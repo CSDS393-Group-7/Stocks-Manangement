@@ -1,3 +1,9 @@
+'use strict'
+
+require('dotenv').config();
+
+const db = require('../database');
+
 class Price {
     static async startSocket (socketServer, db) {
         const io = require('socket.io')(socketServer, {
@@ -26,9 +32,22 @@ class Price {
             })
         })
     }
+
+    static async getStockPrice(list) {
+        let result = {};
+        for(const stock of list) {
+            const query = await db.collection("Price").findOne({stock: stock});
+            delete query['_id'];
+            result[query["stock"]] = query["price"];
+        }
+        return result;
+    }
+
+    static async getSpecificStockPrice(code) {
+        const price = await db.collection("Price").findOne({stock: code});
+        return price["price"];
+    }
 }
-
-
 
 module.exports = Price
 

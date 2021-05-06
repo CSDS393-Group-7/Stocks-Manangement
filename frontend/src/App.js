@@ -8,7 +8,8 @@ import StockManagement from './pages/StockManagement';
 import { Box, makeStyles } from '@material-ui/core';
 import NavBar from './components/NavBar';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from './store/user/user';
+import Page403 from './pages/Page403';
+import AlreadyLoggedIn from './pages/AlreadyLogIn';
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -18,9 +19,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function App() {
-  const dispatch = useDispatch();
   const classes = useStyles();
-  const user = useSelector(state => state.user);
+  const token = useSelector(state => state.token);
   
   return (
     <div className="App">
@@ -30,13 +30,13 @@ function App() {
           <Box className={classes.content}>
             <Switch>
               <Route path="/login">
-                <Login></Login>
+                {<Login></Login>}
               </Route>
               <Route path="/signup">
-                <Signup></Signup>
+                {token === null ? <Signup></Signup> : <AlreadyLoggedIn></AlreadyLoggedIn>} 
               </Route>
               <Route path="/stockmanagement">
-                <StockManagement></StockManagement>
+                {token !== null ? <StockManagement></StockManagement> : <Page403></Page403>}
               </Route>
               <Route path="/">
                 <Home></Home>

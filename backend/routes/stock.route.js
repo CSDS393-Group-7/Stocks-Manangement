@@ -14,6 +14,15 @@ router.post('/addStock', auth.authenticateToken, async (req, res) => {
     res.json(result);
 });
 
+router.post('/stockName', async (req,res) => {
+    const stock = req.body["stock"];
+    const name = await Stocks.getStockName(stock);
+    res.status(200);
+    res.json({
+        name: name
+    });
+})
+
 router.get('/topMentionedStocksSub', async (req, res) => {
     try {
         const data = await Stocks.getTopMentionedStocksSubreddit();

@@ -1,9 +1,10 @@
 import { Paper, CardHeader, Box, makeStyles } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 
 import Chart from '../components/Chart';
 import News from '../components/News';
-import { useSelector } from 'react-redux';
+import Loading from '../components/Loading';
+import SuggestionTable from '../components/Suggestion';
 import "../css/Home.css";
 
 const useStyles = makeStyles(theme => ({
@@ -15,6 +16,7 @@ const useStyles = makeStyles(theme => ({
   suggestionPaper: {
     marginRight: '30px',
     width: 'fill-available',
+    height: 'fit-content',
   },
   newsPaper: {
 
@@ -23,21 +25,27 @@ const useStyles = makeStyles(theme => ({
 
 const Home = () => {
   const classes = useStyles();
-  const user = useSelector(state => state.user);
+
+  const [loading, setLoading] = useState(0);
+
+  const triggerLoading = () => setLoading(value => value + 1);
+  const triggerUnloading = () => setLoading(value => value - 1); 
 
   return (
     <>
+      <Loading open={loading > 0} delayed={1500} />
       <Paper>
         <CardHeader title="General Watchlist" />
-        <Chart />
+        <Chart/>
       </Paper>
       <Box className={classes.box} display="flex">
         <Paper className={classes.suggestionPaper}>
           <CardHeader title="Suggestion Table" />
+          <SuggestionTable/>
         </Paper>
         <Paper>
           <CardHeader title="News" />
-          <News />
+          <News triggerLoading={triggerLoading} triggerUnloading={triggerUnloading} />
         </Paper>
       </Box>
     </>
