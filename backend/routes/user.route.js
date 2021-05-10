@@ -14,11 +14,15 @@ router.post('/create', async (req, res) => {
     const rawPwd = req.body.password;
 
     const user = new User(username);
+    console.log("User is "+ user.username);
 
     if ((await user.ifExists())) {
+        console.log("Code run to here");
+        console.log(username+" is already existed!");
         res.status(409).json(`${username} exists in database`);
         return;
     }
+    console.log("Code run to here 2");
 
     const salt = bcrypt.genSaltSync(10);
     console.log(salt, rawPwd);
