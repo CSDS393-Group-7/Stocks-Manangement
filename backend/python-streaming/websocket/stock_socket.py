@@ -3,10 +3,18 @@ import json
 import pymongo
 
 # stocks = ["AAPL", "FB", "GME", "NFLX", "AMZN","TSLA","MSFT", "MVIS", "GME", "TSLA", "NOK", "AAPL", "AMC", "AMZN", "AMD", "NIO", "OCGN", "ATH", "FB", "INO", "VIAC", "EV", "MSFT", "BB", "EOD", "PM", "TLRY"]
-stocks = ['NIO', 'AMC', 'TSLA', 'MVIS', 'BB', 'INO', 'NOK', 'AMD', 'FB', 'AAPL', 'OCGN', 'MSFT', 'GME', 'AMZN', 'NFLX', 'TLRY']
 myclient = pymongo.MongoClient("mongodb+srv://hieu:Hieu1234@cluster0.uuizv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 mydb = myclient["CSDS393"]
 mycol = mydb['Price']
+topList = mydb["wallstreetsFrequency"]
+stocks = []
+query = topList.aggregate([
+            {'$sort': {'day': -1}},
+            {'$limit': 20}])
+for stock in query:
+    stocks.append(stock["_id"]);
+print(stocks)
+# stocks = ['NIO', 'AMC', 'TSLA', 'MVIS', 'BB', 'INO', 'NOK', 'AMD', 'FB', 'AAPL', 'OCGN', 'MSFT', 'GME', 'AMZN', 'NFLX', 'TLRY']
 def on_message(ws, message):
     try:
         if json.loads(message)['type'] != 'ping':
