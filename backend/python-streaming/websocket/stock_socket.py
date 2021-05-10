@@ -2,10 +2,19 @@ import websocket
 import json
 import pymongo
 
-stocks = ["AAPL", "FB", "GME", "NFLX", "AMZN","TSLA","MSFT", "BINANCE:BTCUSDT","BINANCE:ETHUSDT", "BINANCE:RVNUSDT", "BINANCE:ETCUSDT"]
+# stocks = ["AAPL", "FB", "GME", "NFLX", "AMZN","TSLA","MSFT", "MVIS", "GME", "TSLA", "NOK", "AAPL", "AMC", "AMZN", "AMD", "NIO", "OCGN", "ATH", "FB", "INO", "VIAC", "EV", "MSFT", "BB", "EOD", "PM", "TLRY"]
 myclient = pymongo.MongoClient("mongodb+srv://hieu:Hieu1234@cluster0.uuizv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 mydb = myclient["CSDS393"]
 mycol = mydb['Price']
+topList = mydb["wallstreetsFrequency"]
+# stocks = []
+# query = topList.aggregate([
+#             {'$sort': {'day': -1}},
+#             {'$limit': 20}])
+# for stock in query:
+#     stocks.append(stock["_id"]);
+# print(stocks)
+stocks = ['OCGN', 'FB', 'AMZN', 'ATH', 'TSLA', 'AMC', 'NIO', 'EV', 'PM', 'GME', 'RH', 'NOK', 'INO', 'TTD', 'VIAC', 'BB', 'VXRT', 'TLRY', 'PTON', 'MVIS', 'DKNG', 'EOD', 'IT', 'AMD', 'MSFT', 'ACB', 'AAPL', 'NFLX', 'BABA']
 def on_message(ws, message):
     try:
         if json.loads(message)['type'] != 'ping':

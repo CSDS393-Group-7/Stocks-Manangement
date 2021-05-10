@@ -18,8 +18,8 @@ function Chart(props) {
   const BASE_URI = "http://localhost:8000";
   useEffect(() => {
     const dataFetch = async () => {
-      const stockList = ['AAPL', 'TSLA', 'FB', 'NFLX', 'GME'];
-      const randomStock = stockList[getRandomInt(5)];
+      const stockList = await axios.get("http://localhost:8000/api/stock/topMentionedWallStreetSub");
+      const randomStock = stockList.data[getRandomInt(stockList.data.length - 1)];
       setCurrent(randomStock);
       const reqData = {"stock": randomStock};
       const name = await axios.post(BASE_URI + "/api/stock/stockName", reqData);

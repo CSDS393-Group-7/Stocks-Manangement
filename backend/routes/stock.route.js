@@ -48,6 +48,31 @@ router.get('/topMentionedWallStreetSub', async (req, res) => {
     }
 })
 
+router.post('/volume', async(req, res) =>{
+    try {
+        const code = req.body["stock"];
+        const data = await Stocks.getVolume(code);
+        res.statusCode = 200;
+        res.send(data);
+    }
+    catch(error) {
+        res.statusCode = 400;
+        res.send("Some errors occurred.");
+    }
+})
+
+router.post('/nameList', async(req, res) => {
+    try {
+        const code = req.body["stock"];
+        const data = await Stocks.getNameList(code);
+        res.statusCode = 200;
+        res.send(data);
+    }
+    catch(error) {
+        res.statusCode = 400;
+        res.send("Some errors occurred.");
+    }
+})
 module.exports = router;
 
 

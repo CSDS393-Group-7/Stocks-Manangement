@@ -6,11 +6,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { io } from "socket.io-client"
 import axios from 'axios';
 
-
 import { makeStyles } from '@material-ui/core';
+import { CounterDisposer } from '@amcharts/amcharts4/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,24 +26,7 @@ const Suggestion = () => {
         return {name, symbol, price, volume};
     };
     const [dataArray, setDataArray] = useState([]);
-
-    var names = [];
-
-    //to retrieve 20 top mentioned stocks
-    useEffect(() => {
-        fetch("http://localhost:8000/api/stock/topMentionedStocksSub")
-        .then((response) => response.json())
-        .then((data) => {
-            const dataFetch = Object.entries(data);
-            for(let i = 0; i < 20; i++) {
-                const stockInfo = dataFetch[i][1];
-                const name = stockInfo["_id"];      
-                names.push(name);
-            }
-        })
-    }, []);        
-                
-
+    const [stockList, setStockList] = useState([]);
     const [rows, setRows] = useState([
         createData("Apple", "AAPL", 132.54, 132893955),
         createData("Tesla", "TSLA", 684.90, 28633353),
@@ -53,9 +35,54 @@ const Suggestion = () => {
         createData("GameStop", "GME", 162.20, 3973105),
     ]);
 
+    const getVolume = async (stock) => {
+        const request = {
+            "stock": stock
+        };
+        const result = await axios.post('http://localhost:8000/api/stock/volume', request);
+        const data = result.data;
+        return data[stock];
+    }
+
+    const getStockName = async (stock) => {
+        const data = {
+            "stock": stock
+        }
+        const result = await axios.post("http://localhost:8000/api/stock/stockName", data);
+        return result["name"];
+    }
+    
+    //to retrieve 20 top mentioned stocks
+    useEffect(() => {
+        const dataFetch = async () => {
+            const topList = await axios.get("http://localhost:8000/api/stock/topMentionedWallStreetSub")
+            const body = {
+                "stock": topList.data
+            }
+            
+            const volumes = await axios.post("http://localhost:8000/api/stock/volume", body);
+            const names = await axios.post("http://localhost:8000/api/stock/nameList", body);
+            
+            setRows(rows => {
+                let array = [];
+                for(let i = 0; i < topList.data.length; i++) {
+                    const code = topList.data[i];
+                    const name = names.data[code];
+                    const price = 0;
+                    const volume = volumes.data[code];
+                    array.push(createData(name, code, price, volume));
+                }
+                return [...array];
+            });
+        }
+        dataFetch();
+    }, []);        
+                
+
     useEffect(() => {
         const fetchPrice = async () => {
-            const jsonList = {list: ['AAPL', 'TSLA', 'FB', 'NFLX', 'GME']};
+            const stockList = await axios.get("http://localhost:8000/api/stock/topMentionedWallStreetSub");
+            const jsonList = {list: stockList.data};
             const result = await axios.post("http://localhost:8000/api/price/stockPrice", jsonList);
             if(result.data) {
                 const stockList = result.data;

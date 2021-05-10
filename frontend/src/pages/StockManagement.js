@@ -27,6 +27,7 @@ const StockManagement = () => {
 
     const options = {
         filterType: 'checkbox',
+        selectableRows: 'none',
     };
 
     const token = useSelector(state => state.token);
