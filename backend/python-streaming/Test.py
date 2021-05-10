@@ -11,14 +11,14 @@ stockList = myTop.aggregate([
             {'$sort': {'day': -1}},
             {'$limit': 25}])
 
-symbols = ''
+symbols = []
 for i in stockList:
-    symbols = symbols + i["_id"] + ','
+    symbols.append(i["_id"])
 print(symbols)
 all = mycol.find({})
 for i in all:
     print(i)
-print(set(["AAPL", "FB", "GME", "NFLX", "AMZN","TSLA","MSFT", "MVIS", "GME", "TSLA", "NOK", "AAPL", "AMC", "AMZN", "AMD", "NIO", "OCGN", "ATH", "FB", "INO", "VIAC", "EV", "MSFT", "BB", "EOD", "PM", "TLRY"]))
+print(set(symbols + ['MVIS', 'GME', 'TSLA', 'NOK', 'AMC', 'AAPL', 'AMZN', 'AMD', 'NIO', 'OCGN', 'FB', 'INO', 'MSFT', 'BB', 'PM', 'EOD', 'RH', 'TLRY', 'BABA', 'TTD',"AAPL", "FB", "GME", "NFLX", "AMZN","TSLA","MSFT", "MVIS", "GME", "TSLA", "NOK", "AAPL", "AMC", "AMZN", "AMD", "NIO", "OCGN", "ATH", "FB", "INO", "VIAC", "EV", "MSFT", "BB", "EOD", "PM", "TLRY"]))
 # x = requests.get('http://api.marketstack.com/v1/intraday/latest?access_key=1a092d0c90b20959044439717e12d1be&symbols=' + symbols)
 # data = json.loads(x.content)
 # stockData = data["data"]
