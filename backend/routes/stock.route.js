@@ -24,6 +24,7 @@ router.post('/stockName', async (req,res) => {
 })
 
 router.get('/topMentionedStocksSub', async (req, res) => {
+    console.log("Enter router top mentioned");
     try {
         const data = await Stocks.getTopMentionedStocksSubreddit();
         res.statusCode = 200;
@@ -45,7 +46,6 @@ router.get('/topMentionedWallStreetSub', async (req, res) => {
         res.status = 400;
         res.send("Some errors occurred.");
     }
-    
 })
 
 module.exports = router;
