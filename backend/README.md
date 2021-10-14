@@ -19,11 +19,13 @@
 
 ### Price (/api/price)
 | URL | Description | Request | Response |
+| ------------- | ------------- | ------------- | ------------- |
 | ```/api/price/stockPrice``` | [POST] Get stock price of a list | Request with a list of stocks included in the body | JSON with key-value as stockcode-price |
 | ```/api/price/specificStockPrice``` | [POST] Get stock price of a specific stock | ```{ 'stock': ... }``` included in the body | ```{ 'price': ... }``` |
 
 ### Stock (/api/stock)
 | URL | Description | Request | Response |
+| ------------- | ------------- | ------------- | ------------- |
 | ```/api/stock/addStock``` | [POST] Add stock to a user | Request with authorization key & ```{ 'stock': ... }` included in the body | JSON for stock information |
 | ```/api/stock/stockName``` | [POST] Get the full stock name | Request with the stock code included in the body | The name of the stock in `name` field |
 | ```/api/stock/topMentionedStocksSub``` | [GET] Get the list of top mentioned stocks on Reddit | None | List of stock codes that are frequently mentioned |
